@@ -1,22 +1,28 @@
 import pygame
 import sys
-
+from funciones.funciones import *
+from funciones.pantallas import *
+from funciones.utilidades import *
 pygame.init()
-
-ANCHO, ALTO = 800 , 600
-PANTALLA = pygame.display.set_mode((ANCHO, ALTO))
-pygame.display.set_caption("Buscaminas N")
 
 CLOCK = pygame.time.Clock()
 FPS = 60 
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
+
 
 RUN = True
-
+mostrar_inicio = True
 while RUN:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            RUN = False
+    CLOCK.tick(FPS)
+    if mostrar_inicio:
+        pantalla_inicio()
+        dibujar_boton(PANTALLA,boton_rect,ROJO, boton_texto, fuente_boton, texto_color_boton)
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                RUN = False
+    else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                RUN = False
