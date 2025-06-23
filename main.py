@@ -21,8 +21,10 @@ while RUN:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                RUN = False
+                mostrar_inicio = False
     else:
+        pantalla_juego()
+        pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 RUN = False
