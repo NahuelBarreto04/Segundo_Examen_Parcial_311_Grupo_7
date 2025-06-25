@@ -1,30 +1,40 @@
 import pygame
-import sys
-from funciones.funciones import *
-from funciones.pantallas import *
-from funciones.utilidades import *
+from funciones.menu import mostrar_textos, dibujar_botones, manejar_click, get_pantalla_actual, set_pantalla_actual
+from funciones.pantallas import pantalla_juego
+
 pygame.init()
+pygame.font.init()
 
-CLOCK = pygame.time.Clock()
-FPS = 60 
+ANCHO = 1820
+ALTO = 920
+PANTALLA = pygame.display.set_mode((ANCHO, ALTO), pygame.RESIZABLE)
+pygame.display.set_caption("Buscaminas")
+
+COLOR_FONDO = (54, 54, 54)
+
+def pantalla_menu():
+    PANTALLA.fill(COLOR_FONDO)
+    mostrar_textos(PANTALLA)
+    dibujar_botones(PANTALLA)
+    pygame.display.flip()
+
+def menu_interaccion():
+    while True:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                return
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_ESCAPE:
+                    set_pantalla_actual("menu")
+            elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+                if get_pantalla_actual() == "menu":
+                    manejar_click(evento.pos)
+
+        if get_pantalla_actual() == "menu":
+            pantalla_menu()
+        elif get_pantalla_actual() == "juego":
+            pantalla_juego(PANTALLA)
 
 
-
-RUN = True
-mostrar_inicio = True
-while RUN:
-    CLOCK.tick(FPS)
-    if mostrar_inicio:
-        pantalla_inicio()
-        dibujar_boton(PANTALLA,boton_rect,ROJO, boton_texto, fuente_boton, texto_color_boton)
-        pygame.display.flip()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                mostrar_inicio = False
-    else:
-        pantalla_juego()
-        pygame.display.flip()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                RUN = False
+menu_interaccion()
