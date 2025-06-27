@@ -1,19 +1,50 @@
-import pygame
-def suma():
-    print("2+2")
+# import pygame
+import random
 
-#DIBUJAR BOTON
-def dibujar_boton(pantalla, rect, color, texto, fuente, texto_color):
-    #dibujar boton
-    pygame.draw.rect(pantalla, color,rect, border_radius=10)
+randint = random.randint
 
-    #mostrar el texto
-    texto = fuente.render(texto, True, texto_color)
+CELDA = {
+    "valor": 0,
+    "rect": "",
+    "estado": True
+}
 
-    #Centrar el texto 
-    pos_texto_x = rect.x + (rect.width // 2) - (texto.get_width() // 2)
-    pos_texto_y = rect.y + (rect.height // 2) - (texto.get_height() // 2)
-    
-    #dibujar sobre la pantalla
-    pantalla.blit(texto, (pos_texto_x,pos_texto_y))
+BOMBA = {
+    "valor": 1,
+    "rect": "",
+    "estado": True
+}
+
+def generar_tablero(filas:int, columnas:int, valor:any):
+    tablero = []
+    for i in range(filas):
+        fila = [valor] * columnas
+        tablero += [fila]
+    return tablero
+
+tablero = (generar_tablero(8,8,CELDA))
+print(len(tablero))
+def mostrar_tablero(tablero):
+    # print(tablero)
+    for i in range(len(tablero)):
+        print("")
+        for x in range(len(tablero[i])):
+            print(tablero[i][x]["valor"], end=" ")
+    print(" ")
+           
+mostrar_tablero(tablero)
+
+
+def generar_minas(tablero: list, cant_minas: int, BOMBA:dict):
+    while cant_minas > 0:
+        fila = randint(0, len(tablero)- 1)
+        columna = randint(0, len(tablero[0])- 1)
+        if tablero[fila][columna]["valor"] == 0:
+            tablero[fila][columna] = BOMBA
+            cant_minas -= 1
+
+# # print(tablero)
+generar_minas(tablero, 8, BOMBA)
+mostrar_tablero(tablero)
+
 

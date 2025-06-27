@@ -5,7 +5,6 @@ pantalla_actual = "menu"
 BOTONES = []
 
 def get_pantalla_actual():
-    global pantalla_actual
     return pantalla_actual
 
 def set_pantalla_actual(valor):
@@ -13,7 +12,6 @@ def set_pantalla_actual(valor):
     pantalla_actual = valor
 
 def get_dificultad_actual():
-    global dificultad_actual
     return dificultad_actual
 
 def set_dificultad_actual(valor):
@@ -32,7 +30,7 @@ def dibujar_botones(pantalla):
     textos = ["Jugar", f"Dificultad: ({dificultad_actual})", "Puntajes", "Salir"]
     funciones = [jugar, cambiar_dificultad, ver_puntajes, salir]
 
-    for i, texto in enumerate(textos):
+    for i in range(len(textos)):
         w = pantalla.get_width() // 4
         h = pantalla.get_height() // 12
         x = (pantalla.get_width() - w) // 2
@@ -40,17 +38,17 @@ def dibujar_botones(pantalla):
 
         rect = pygame.Rect(x, y, w, h)
         pygame.draw.rect(pantalla, (100, 100, 100), rect)
-
+    
         fuente = pygame.font.SysFont("arial", h // 2)
-        t = fuente.render(texto, True, (255, 255, 255))
-        pantalla.blit(t, (x + (w - t.get_width()) // 2, y + (h - t.get_height()) // 2))
-
+        texto = fuente.render(textos[i], True, (255, 255, 255))
+        pantalla.blit(texto, (x + (w - texto.get_width()) // 2, y + (h - texto.get_height()) // 2))
         BOTONES.append((rect, funciones[i]))
 
+
+
 def manejar_click(pos):
-    if pantalla_actual != "menu":
-        return
     for rect, funcion in BOTONES:
+        print(rect.collidepoint(pos))
         if rect.collidepoint(pos):
             funcion()
 

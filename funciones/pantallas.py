@@ -1,7 +1,8 @@
 import pygame
 from funciones.menu import get_dificultad_actual
+from funciones.utilidades import *
 
-def pantalla_juego(pantalla):
+def pantalla_juego(pantalla,evento):
     pantalla.fill((0,0,0))
 
     dificultad = get_dificultad_actual()
@@ -31,4 +32,14 @@ def pantalla_juego(pantalla):
     x3 = 20
     y3 = pantalla.get_height() - texto3.get_height() - 10
     pantalla.blit(texto3,(x3,y3))
+
+    "Test Celda"
+    ruta_imagenes = 'imagenes/'
+    imagen_celda = pygame.image.load(f"{ruta_imagenes}bloque-vacio.png")
+    imagen_celda = pygame.transform.scale(imagen_celda, (120, 220))
+    rect_celda = pygame.Rect(120,220, 120,220)
+    pantalla.blit(imagen_celda,((120,220)))
     pygame.display.flip()
+
+    if evento.type == pygame.MOUSEBUTTONDOWN  and evento.button == 1:
+        print(rect_celda.collidepoint(evento.pos))
