@@ -28,7 +28,6 @@ def mostrar_textos(pantalla):
 def dibujar_botones(pantalla):
     BOTONES.clear()
     textos = ["Jugar", f"Dificultad: ({dificultad_actual})", "Puntajes", "Salir"]
-    funciones = [jugar, cambiar_dificultad, ver_puntajes, salir]
 
     for i in range(len(textos)):
         w = pantalla.get_width() // 4
@@ -38,19 +37,27 @@ def dibujar_botones(pantalla):
 
         rect = pygame.Rect(x, y, w, h)
         pygame.draw.rect(pantalla, (100, 100, 100), rect)
-    
+
         fuente = pygame.font.SysFont("arial", h // 2)
         texto = fuente.render(textos[i], True, (255, 255, 255))
         pantalla.blit(texto, (x + (w - texto.get_width()) // 2, y + (h - texto.get_height()) // 2))
-        BOTONES.append((rect, funciones[i]))
 
-
+        BOTONES.append(rect) 
 
 def manejar_click(pos):
-    for rect, funcion in BOTONES:
-        print(rect.collidepoint(pos))
-        if rect.collidepoint(pos):
-            funcion()
+    for i in range(len(BOTONES)):
+        if BOTONES[i].collidepoint(pos):
+            ejecutar_funcion(i)
+
+def ejecutar_funcion(indice):
+    if indice == 0:
+        jugar()
+    elif indice == 1:
+        cambiar_dificultad()
+    elif indice == 2:
+        ver_puntajes()
+    elif indice == 3:
+        salir()
 
 def jugar():
     set_pantalla_actual("juego")
