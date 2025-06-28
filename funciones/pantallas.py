@@ -1,8 +1,12 @@
 import pygame
 from funciones.menu import get_dificultad_actual
 from funciones.utilidades import *
+from funciones.funciones import *
 
-def pantalla_juego(pantalla,evento):
+def pantalla_juego(pantalla):
+    
+    dificultad_juego = {}
+
     pantalla.fill((0,0,0))
 
     dificultad = get_dificultad_actual()
@@ -17,10 +21,19 @@ def pantalla_juego(pantalla,evento):
     fuente2 = pygame.font.SysFont("arial", 30)
     if dificultad == "facil":
         desc = "tablero 8x8 con 10 minas"
+        dificultad_juego["filas"] = 8
+        dificultad_juego["columnas"] = 8
+        dificultad_juego["minas"] = 10
     elif dificultad == "normal":
         desc = "tablero 16x16 con 50 minas"
+        dificultad_juego["filas"] = 16
+        dificultad_juego["columnas"] = 16
+        dificultad_juego["minas"] = 50
     else:
         desc = "tablero 24x24 con 120 minas"
+        dificultad_juego["filas"] = 24
+        dificultad_juego["columnas"] = 24
+        dificultad_juego["minas"] = 120
     
     texto2 = fuente2.render(desc,True,(200,200,200))
     x2 = 20
@@ -33,6 +46,12 @@ def pantalla_juego(pantalla,evento):
     y3 = pantalla.get_height() - texto3.get_height() - 10
     pantalla.blit(texto3,(x3,y3))
 
+    
+    tablero = generar_tablero(dificultad_juego["filas"],dificultad_juego["columnas"], CELDA)
+
+    generar_minas(tablero, dificultad_juego["minas"], CELDA)
+
+
     "Test Celda"
     ruta_imagenes = 'imagenes/'
     imagen_celda = pygame.image.load(f"{ruta_imagenes}bloque-vacio.png")
@@ -41,5 +60,5 @@ def pantalla_juego(pantalla,evento):
     pantalla.blit(imagen_celda,((120,220)))
     pygame.display.flip()
 
-    if evento.type == pygame.MOUSEBUTTONDOWN  and evento.button == 1:
-        print(rect_celda.collidepoint(evento.pos))
+    # if evento.type == pygame.MOUSEBUTTONDOWN  and evento.button == 1:
+    #     print(rect_celda.collidepoint(evento.pos))

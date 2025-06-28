@@ -4,26 +4,31 @@ import random
 randint = random.randint
 
 CELDA = {
-    "valor": 0,
+    "valor": "bloque-vacio.png",
     "rect": "",
-    "estado": True
+    "estado": False
 }
 
-BOMBA = {
-    "valor": 1,
-    "rect": "",
-    "estado": True
-}
+# BOMBA = {
+#     "valor": 1,
+#     "rect": "",
+#     "estado": True
+# }
 
 def generar_tablero(filas:int, columnas:int, valor:any):
     tablero = []
     for i in range(filas):
-        fila = [valor] * columnas
-        tablero += [fila]
+        fila = []
+        for x in range(columnas):
+            celda = valor.copy()
+            fila.append(celda)
+        tablero.append(fila)
     return tablero
 
 tablero = (generar_tablero(8,8,CELDA))
 print(len(tablero))
+
+
 def mostrar_tablero(tablero):
     # print(tablero)
     for i in range(len(tablero)):
@@ -32,19 +37,23 @@ def mostrar_tablero(tablero):
             print(tablero[i][x]["valor"], end=" ")
     print(" ")
            
-mostrar_tablero(tablero)
+# mostrar_tablero(tablero)
 
 
-def generar_minas(tablero: list, cant_minas: int, BOMBA:dict):
+def generar_minas(tablero: list, minas: int, BOMBA:dict):
+    cant_minas = minas
     while cant_minas > 0:
         fila = randint(0, len(tablero)- 1)
         columna = randint(0, len(tablero[0])- 1)
-        if tablero[fila][columna]["valor"] == 0:
-            tablero[fila][columna] = BOMBA
+        if tablero[fila][columna]["valor"] == "bloque-vacio.png":
+            tablero[fila][columna]["valor"] = "bomba.png"
             cant_minas -= 1
+            print(cant_minas)
 
-# # print(tablero)
-generar_minas(tablero, 8, BOMBA)
-mostrar_tablero(tablero)
+
+# print(tablero)
+# # mostrar_tablero(tablero)
+# generar_minas(tablero, 5, CELDA)
+# mostrar_tablero(tablero)
 
 

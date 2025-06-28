@@ -2,6 +2,7 @@ import pygame
 #from funciones.menu import mostrar_textos, dibujar_botones, manejar_click, get_pantalla_actual, set_pantalla_actual, dificultad_actual,pantalla_actual
 from funciones.pantallas import pantalla_juego
 from funciones.menu import *
+from funciones.funciones import *
 pygame.init()
 pygame.font.init()
 
@@ -33,7 +34,7 @@ def menu_interaccion():
             if get_pantalla_actual() == "menu":
                 pantalla_menu()
             elif get_pantalla_actual() == "juego":
-                pantalla_juego(PANTALLA,evento)
+                pantalla_juego(PANTALLA)
 
         
 
