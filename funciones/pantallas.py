@@ -1,6 +1,6 @@
 import pygame
 from funciones.menu import get_dificultad_actual
-from funciones.utilidades import *
+from funciones.utilidad import *
 from funciones.funciones import *
 
 def pantalla_juego(pantalla):
@@ -50,7 +50,7 @@ def pantalla_juego(pantalla):
     tablero = generar_tablero(dificultad_juego["filas"],dificultad_juego["columnas"], CELDA)
 
     generar_minas(tablero, dificultad_juego["minas"], CELDA)
-
+    inicializar_react_celdas(tablero)
 
     "Test Celda"
     ruta_imagenes = 'imagenes/'
