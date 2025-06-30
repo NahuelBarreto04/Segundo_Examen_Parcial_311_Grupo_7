@@ -34,7 +34,7 @@ def menu_interaccion():
             if get_pantalla_actual() == "menu":
                 pantalla_menu()
             elif get_pantalla_actual() == "juego":
-                pantalla_juego(PANTALLA)
+                pantalla_juego(PANTALLA,evento)
 
         
 

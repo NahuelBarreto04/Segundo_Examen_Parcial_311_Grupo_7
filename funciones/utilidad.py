@@ -27,7 +27,22 @@ IMAGENES = {
     "7.png": pygame.image.load("imagenes/7.png"),
     "8.png": pygame.image.load("imagenes/8.png")
 }
+def dibujar_boton_volver(pantalla, evento):
+    fuente = pygame.font.SysFont("arial", 25)
+    texto = fuente.render("volver al menu", True, (255, 255, 255))
+    ancho = texto.get_width() + 20
+    alto = texto.get_height() + 10
+    x = 20
+    y = pantalla.get_height() - alto - 10
+    rect_volver = pygame.Rect(x, y, ancho, alto)
 
+    pygame.draw.rect(pantalla, (80, 80, 80), rect_volver)
+    pantalla.blit(texto, (x + 10, y + 5))
+
+    if evento != None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+        if rect_volver.collidepoint(evento.pos):
+            return True
+    return False
 #separa el key y el value de los items
 for nombre_img,img_superficie in IMAGENES.items():
     IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
