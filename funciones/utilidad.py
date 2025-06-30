@@ -29,8 +29,8 @@ for nombre_img,img_superficie in IMAGENES.items():
 
 
 def inicializar_react_celdas(tablero:list, pantalla, MARGEN, TAM_CELDA, ANCHO_TABLERO, ALTO_TABLERO):
-    offset_x = (pantalla.get_width() - ANCHO_TABLERO)
-    offset_y = (pantalla.get_height() - ALTO_TABLERO)
+    offset_x = (pantalla.get_width() - ANCHO_TABLERO) // 2
+    offset_y = (pantalla.get_height() - ALTO_TABLERO) // 2
     for fila in range (len(tablero)):
         for columna in range(len(tablero[fila])):
             #calcular las posiciones
