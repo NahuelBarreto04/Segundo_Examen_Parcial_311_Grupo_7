@@ -1,5 +1,7 @@
 import pygame
 
+resolucion_actual = "800x600"
+
 dificultad_actual = "facil"
 pantalla_actual = "menu"
 BOTONES = []
@@ -27,7 +29,7 @@ def mostrar_textos(pantalla):
 
 def dibujar_botones(pantalla):
     BOTONES.clear()
-    textos = ["Jugar", f"Dificultad: ({dificultad_actual})", "Puntajes", "Salir"]
+    textos = ["Jugar", f"Dificultad: ({dificultad_actual})", "Puntajes",f"resoluciones ({resolucion_actual})" ,"Salir"]
 
     for i in range(len(textos)):
         w = pantalla.get_width() // 4
@@ -57,6 +59,8 @@ def ejecutar_funcion(indice):
     elif indice == 2:
         ver_puntajes()
     elif indice == 3:
+        cambiar_resolucion()
+    elif indice == 4:
         salir()
 
 def jugar():
@@ -70,6 +74,23 @@ def cambiar_dificultad():
         dificultad_actual = "dificil"
     else:
         dificultad_actual = "facil"
+
+
+def cambiar_resolucion():
+    global resolucion_actual
+    if resolucion_actual == "800x600":
+        resolucion_actual = "1024x768"
+    elif resolucion_actual == "1024x768":
+        resolucion_actual = "620x480"
+    else:
+        resolucion_actual = "800x600"
+    print("Nueva resolucion:", resolucion_actual)
+
+def get_resolucion_actual():
+    partes = resolucion_actual.split("x")
+    ancho = int(partes[0])
+    alto = int(partes[1])
+    return ancho, alto
 
 def ver_puntajes():
     print("PUNTAJES")
