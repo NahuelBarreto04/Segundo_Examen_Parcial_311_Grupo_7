@@ -11,14 +11,14 @@ ALTO = 600
 
 ancho_actual = ANCHO
 alto_actual = ALTO
-PANTALLA = pygame.display.set_mode((ANCHO, ALTO), pygame.RESIZABLE)
+PANTALLA = pygame.display.set_mode((ANCHO, ALTO), pygame.SCALED)
 
 pygame.display.set_caption("Buscaminas")
 
 COLOR_FONDO = (54, 54, 54)
 def actualizar_resolucion():
     ancho, alto = get_resolucion_actual()
-    PANTALLA = pygame.display.set_mode((ancho, alto), pygame.RESIZABLE)
+    PANTALLA = pygame.display.set_mode((ancho, alto), pygame.SCALED)
 
 def pantalla_menu():
     PANTALLA.fill(COLOR_FONDO)
