@@ -7,11 +7,7 @@ import pygame
 TAM_CELDA = 40
 MARGEN = 1
 
-FILAS = 8
-COLUMNAS = 8
 
-ANCHO_TABLERO = COLUMNAS * (TAM_CELDA + MARGEN) + MARGEN
-ALTO_TABLERO = FILAS * (TAM_CELDA + MARGEN) + MARGEN
 
 IMAGENES = {
     "bloque-vacio.png": pygame.image.load("imagenes/bloque-vacio.png"),
@@ -32,14 +28,14 @@ for nombre_img,img_superficie in IMAGENES.items():
     IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 
 
-def inicializar_react_celdas(tablero:list, pantalla, MARGEN, TAM_CELDA):
-    offset_x = 20
-    offset_y = 100
+def inicializar_react_celdas(tablero:list, pantalla, MARGEN, TAM_CELDA, ANCHO_TABLERO, ALTO_TABLERO):
+    offset_x = (pantalla.get_width() - ANCHO_TABLERO)
+    offset_y = (pantalla.get_height() - ALTO_TABLERO)
     for fila in range (len(tablero)):
         for columna in range(len(tablero[fila])):
             #calcular las posiciones
-            x = MARGEN + columna * (TAM_CELDA + MARGEN)
-            y = MARGEN + fila * (TAM_CELDA + MARGEN)
+            x = offset_x + MARGEN + columna * (TAM_CELDA + MARGEN)
+            y = offset_y + MARGEN + fila * (TAM_CELDA + MARGEN)
             #poner el react en el diccionario de la celda
             tablero[fila][columna]["rect"] = pygame.Rect(x,y, TAM_CELDA, TAM_CELDA)
 

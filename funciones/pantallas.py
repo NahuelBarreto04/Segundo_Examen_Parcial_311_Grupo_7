@@ -44,9 +44,17 @@ def pantalla_juego(pantalla, evento):
     tablero = generar_tablero(dificultad_juego["filas"], dificultad_juego["columnas"], CELDA)
     generar_minas(tablero, dificultad_juego["minas"], CELDA)
 
-    inicializar_react_celdas(tablero, pantalla, MARGEN, TAM_CELDA)
+    FILAS = dificultad_juego["filas"]
+    COLUMNAS = dificultad_juego["columnas"]
 
+    ANCHO_TABLERO = COLUMNAS * (TAM_CELDA + MARGEN) + MARGEN
+    ALTO_TABLERO = FILAS * (TAM_CELDA + MARGEN) + MARGEN
+    
+    inicializar_react_celdas(tablero, pantalla, MARGEN, TAM_CELDA, ANCHO_TABLERO, ALTO_TABLERO)
+
+    
     dibujar_tablero(pantalla,tablero, IMAGENES)
+
 
 
     # Dibujar boton volver al menu
