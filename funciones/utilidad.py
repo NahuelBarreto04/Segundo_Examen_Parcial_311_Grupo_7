@@ -27,6 +27,33 @@ IMAGENES = {
     "7.png": pygame.image.load("imagenes/7.png"),
     "8.png": pygame.image.load("imagenes/8.png")
 }
+#separa el key y el value de los items
+for nombre_img,img_superficie in IMAGENES.items():
+    IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
+
+
+def inicializar_react_celdas(tablero:list, pantalla, MARGEN, TAM_CELDA):
+    offset_x = 20
+    offset_y = 100
+    for fila in range (len(tablero)):
+        for columna in range(len(tablero[fila])):
+            #calcular las posiciones
+            x = MARGEN + columna * (TAM_CELDA + MARGEN)
+            y = MARGEN + fila * (TAM_CELDA + MARGEN)
+            #poner el react en el diccionario de la celda
+            tablero[fila][columna]["rect"] = pygame.Rect(x,y, TAM_CELDA, TAM_CELDA)
+
+
+def dibujar_tablero(pantalla, tablero, IMAGENES):
+    for fila in range(len(tablero)):
+        for columna in range(len(tablero[fila])):
+            celda = tablero[fila][columna]
+            if celda["rect"]:
+                pygame.draw.rect(pantalla,(200,200,200), celda["rect"])
+
+                imagen = IMAGENES[celda["valor"]]
+                pantalla.blit(imagen, celda["rect"])
+            
 def dibujar_boton_volver(pantalla, evento):
     fuente = pygame.font.SysFont("arial", 25)
     texto = fuente.render("volver al menu", True, (255, 255, 255))
@@ -43,9 +70,3 @@ def dibujar_boton_volver(pantalla, evento):
         if rect_volver.collidepoint(evento.pos):
             return True
     return False
-#separa el key y el value de los items
-for nombre_img,img_superficie in IMAGENES.items():
-    IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
-
-
-

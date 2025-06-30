@@ -1,6 +1,6 @@
 import pygame
 from funciones.menu import get_dificultad_actual, set_pantalla_actual
-from funciones.utilidad import dibujar_boton_volver
+from funciones.utilidad import dibujar_boton_volver, dibujar_tablero, inicializar_react_celdas, MARGEN, TAM_CELDA, IMAGENES
 from funciones.funciones import *
 
 def pantalla_juego(pantalla, evento):
@@ -43,13 +43,11 @@ def pantalla_juego(pantalla, evento):
     # Lógica del tablero
     tablero = generar_tablero(dificultad_juego["filas"], dificultad_juego["columnas"], CELDA)
     generar_minas(tablero, dificultad_juego["minas"], CELDA)
-    inicializar_react_celdas(tablero, CELDA, pantalla)
 
-    # Imagen de prueba (borrar después)
-    ruta_imagenes = 'imagenes/'
-    imagen_celda = pygame.image.load(f"{ruta_imagenes}bloque-vacio.png")
-    imagen_celda = pygame.transform.scale(imagen_celda, (120, 220))
-    pantalla.blit(imagen_celda, (120, 220))
+    inicializar_react_celdas(tablero, pantalla, MARGEN, TAM_CELDA)
+
+    dibujar_tablero(pantalla,tablero, IMAGENES)
+
 
     # Dibujar boton volver al menu
     if dibujar_boton_volver(pantalla, evento):

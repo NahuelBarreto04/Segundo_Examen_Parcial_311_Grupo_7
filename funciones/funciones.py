@@ -1,5 +1,4 @@
 import pygame
-from funciones.utilidad import *
 import random
 randint = random.randint
 
@@ -23,11 +22,12 @@ def mostrar_tablero(tablero):
     # print(tablero)
     for i in range(len(tablero)):
         for j in range(len(tablero[i])):
-            print(trablero[i][j]["valor"], end=" ")
+            print(tablero[i][j]["valor"], end=" ")
         print("")
     print(" ")
-           
-# mostrar_tablero(tablero)
+
+tablero = generar_tablero(8,8,CELDA)      
+mostrar_tablero(tablero)
 
 
 def generar_minas(tablero: list, minas: int, BOMBA:dict):
@@ -39,17 +39,6 @@ def generar_minas(tablero: list, minas: int, BOMBA:dict):
             tablero[fila][columna]["valor"] = "bomba.png"
             cant_minas -= 1
 
-
-def inicializar_react_celdas(tablero:list, celda_ejemplo:dict, pantalla):
-    offset_x = 20
-    offset_y = 100
-    for fila in range (len(tablero)):
-        for columna in range(len(tablero[fila])):
-            #calcular las posiciones
-            x = offset_x + columna * (TAM_CELDA + MARGEN)
-            y = offset_y + fila * (TAM_CELDA + MARGEN)
-            #poner el react en el diccionario de la celda
-            tablero[fila][columna]["rect"] = pygame.Rect(x,y, TAM_CELDA, TAM_CELDA)
 
 
 
