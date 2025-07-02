@@ -1,13 +1,20 @@
 import pygame
+import time
 from funciones.menu import get_dificultad_actual, set_pantalla_actual
 from funciones.utilidad import dibujar_boton_volver, dibujar_tablero, inicializar_react_celdas, MARGEN, TAM_CELDA, IMAGENES
 from funciones.funciones import *
 
-def pantalla_juego(pantalla, evento):
+inicio_timer = None
+
+def pantalla_juego(pantalla, evento,inicio_timer):
     dificultad_juego = {}
 
     pantalla.fill((0,0,0))
 
+    if inicio_timer == None:
+        inicio_timer = pygame.time.get_ticks()
+
+        
     dificultad = get_dificultad_actual()
 
     fuente = pygame.font.SysFont("arial",50)
@@ -55,10 +62,23 @@ def pantalla_juego(pantalla, evento):
     
     dibujar_tablero(pantalla,tablero, IMAGENES)
 
-
+    dibujar_timer(pantalla, inicio_timer)
+    if dibujar_boton_volver(pantalla,evento):
+        set_pantalla_actual("menu")
+        return None
 
     # Dibujar boton volver al menu
     if dibujar_boton_volver(pantalla, evento):
         set_pantalla_actual("menu")
 
     pygame.display.flip()
+    return inicio_timer
+
+def dibujar_timer(pantalla,incio):
+    fuente = pygame.font.SysFont("arial",30)
+    ahora = pygame.time.get_ticks()
+    segundos= (ahora - incio) // 1000
+    texto = fuente.render("tiempo: " + str(segundos) + "s",True,(255,255,255))
+    x = pantalla.get_width() - texto.get_width() - 20
+    y =20
+    pantalla.blit(texto,(x,y))

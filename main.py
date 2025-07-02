@@ -9,16 +9,18 @@ pygame.font.init()
 ANCHO = 800
 ALTO = 600
 
+inicio_timer = None
 ancho_actual = ANCHO
 alto_actual = ALTO
-PANTALLA = pygame.display.set_mode((ANCHO, ALTO), pygame.SCALED)
+PANTALLA = pygame.display.set_mode((ANCHO, ALTO),)
 
 pygame.display.set_caption("Buscaminas")
 
 COLOR_FONDO = (54, 54, 54)
 def actualizar_resolucion():
+
     ancho, alto = get_resolucion_actual()
-    PANTALLA = pygame.display.set_mode((ancho, alto), pygame.SCALED)
+    PANTALLA = pygame.display.set_mode((ancho, alto),)
 
 def pantalla_menu():
     PANTALLA.fill(COLOR_FONDO)
@@ -27,6 +29,7 @@ def pantalla_menu():
     pygame.display.flip()
 
 def menu_interaccion():
+    global inicio_timer
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -42,8 +45,8 @@ def menu_interaccion():
             if get_pantalla_actual() == "menu":
                 pantalla_menu()
             elif get_pantalla_actual() == "juego":
-                pantalla_juego(PANTALLA,evento)
-
+                
+                inicio_timer = pantalla_juego(PANTALLA,evento,inicio_timer)
         
 
 actualizar_resolucion()
