@@ -29,27 +29,25 @@ for nombre_img,img_superficie in IMAGENES.items():
     IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 
 
-def inicializar_react_celdas(tablero:list, pantalla, MARGEN, TAM_CELDA, ANCHO_TABLERO, ALTO_TABLERO):
-    offset_x = (pantalla.get_width() - ANCHO_TABLERO) // 2
-    offset_y = (pantalla.get_height() - ALTO_TABLERO) // 2
-    for fila in range (len(tablero)):
-        for columna in range(len(tablero[fila])):
-            #calcular las posiciones
-            x = offset_x + MARGEN + columna * (TAM_CELDA + MARGEN)
-            y = offset_y + MARGEN + fila * (TAM_CELDA + MARGEN)
-            #poner el react en el diccionario de la celda
-            tablero[fila][columna]["rect"] = pygame.Rect(x,y, TAM_CELDA, TAM_CELDA)
-
-
-def dibujar_tablero(pantalla, tablero, IMAGENES):
+def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero, alto_tablero):
+    offset_x = (pantalla.get_width() - ancho_tablero) // 2
+    offset_y = (pantalla.get_height() - alto_tablero) // 2
     for fila in range(len(tablero)):
         for columna in range(len(tablero[fila])):
-            celda = tablero[fila][columna]
-            if celda["rect"]:
-                pygame.draw.rect(pantalla,(200,200,200), celda["rect"])
+            x = offset_x + margen + columna * (tam_celda + margen)
+            y = offset_y + margen + fila * (tam_celda + margen)
+            tablero[fila][columna]["rect"] = pygame.Rect(x, y, tam_celda, tam_celda)
 
-                imagen = IMAGENES[celda["valor"]]
+
+
+def dibujar_tablero(pantalla, tablero, imagenes):
+    for fila in tablero:
+        for celda in fila:
+            if celda["rect"]:
+                imagen = pygame.transform.scale(imagenes[celda["valor"]], (celda["rect"].width, celda["rect"].height))
                 pantalla.blit(imagen, celda["rect"])
+
+
             
 def dibujar_boton_volver(pantalla, evento):
     fuente = pygame.font.SysFont("arial", 25)
@@ -60,10 +58,19 @@ def dibujar_boton_volver(pantalla, evento):
     y = pantalla.get_height() - alto - 10
     rect_volver = pygame.Rect(x, y, ancho, alto)
 
+
     pygame.draw.rect(pantalla, (80, 80, 80), rect_volver)
     pantalla.blit(texto, (x + 10, y + 5))
 
-    if evento != None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+
+    if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
         if rect_volver.collidepoint(evento.pos):
             return True
     return False
+
+def calcular_tamanio_celda(filas, columnas, max_ancho, max_alto, margen):
+    tam_ancho = (max_ancho - (columnas + 1) * margen) // columnas
+    tam_alto = (max_alto - (filas + 1) * margen) // filas
+    return min(tam_ancho, tam_alto)
+
+
