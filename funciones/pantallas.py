@@ -1,9 +1,8 @@
 import pygame
 import time
-from funciones.menu import get_dificultad_actual, set_pantalla_actual
-from funciones.utilidad import dibujar_boton_volver, dibujar_tablero, inicializar_react_celdas, MARGEN, TAM_CELDA, IMAGENES
-from funciones.funciones import *
-
+from .utilidad import dibujar_boton_volver, dibujar_tablero, inicializar_react_celdas, MARGEN, TAM_CELDA, IMAGENES
+from .funciones import *
+from . import configuraciones
 inicio_timer = None
 
 def pantalla_juego(pantalla, evento,inicio_timer):
@@ -15,7 +14,7 @@ def pantalla_juego(pantalla, evento,inicio_timer):
         inicio_timer = pygame.time.get_ticks()
 
         
-    dificultad = get_dificultad_actual()
+    dificultad = configuraciones.get_dificultad_actual()
 
     fuente = pygame.font.SysFont("arial",50)
     texto = fuente.render(f"Dificultad: {dificultad.upper()}",True,(255,255,255))
@@ -63,13 +62,14 @@ def pantalla_juego(pantalla, evento,inicio_timer):
     dibujar_tablero(pantalla,tablero, IMAGENES)
 
     dibujar_timer(pantalla, inicio_timer)
+
     if dibujar_boton_volver(pantalla,evento):
-        set_pantalla_actual("menu")
+        configuraciones.set_pantalla_actual("menu")
         return None
 
     # Dibujar boton volver al menu
     if dibujar_boton_volver(pantalla, evento):
-        set_pantalla_actual("menu")
+        configuraciones.set_pantalla_actual("menu")
 
     pygame.display.flip()
     return inicio_timer
