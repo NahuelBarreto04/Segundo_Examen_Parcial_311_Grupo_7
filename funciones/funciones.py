@@ -42,18 +42,20 @@ def generar_minas(tablero: list, minas: int, BOMBA:dict):
             cant_minas -= 1
 
 
-def obtener_fila_columna(pos):
+def obtener_fila_columna(pos, tablero):
     x, y = pos
-    col = (x - MARGEN) // (TAM_CELDA + MARGEN)
-    fila = (y - MARGEN) // (TAM_CELDA + MARGEN)
-    return fila, col
+    for f in range(len(tablero)):
+        for c in range(len(tablero[0])):
+            if tablero[f][c]["rect"].collidepoint(x, y):
+                return f, c
+    return -1, -1
+
 
 def generar_minas_asegurando_celda_segura(tablero, minas, fila_segura, col_segura):
     filas = len(tablero)
     columnas = len(tablero[0])
-    cantidad_minas = minas
     minas_puestas = 0
-    while minas_puestas < cantidad_minas:
+    while minas_puestas < minas:
         f = random.randint(0, filas - 1)
         c = random.randint(0, columnas - 1)
 
@@ -63,26 +65,15 @@ def generar_minas_asegurando_celda_segura(tablero, minas, fila_segura, col_segur
             tablero[f][c]["valor"] = "bomba.png"
             minas_puestas += 1
 
-def obtener_fila_columna(pos):
+
+def obtener_fila_columna(pos, tablero):
     x, y = pos
-    col = (x - MARGEN) // (TAM_CELDA + MARGEN)
-    fila = (y - MARGEN) // (TAM_CELDA + MARGEN)
-    
+    for f in range(len(tablero)):
+        for c in range(len(tablero[0])):
+            if tablero[f][c]["rect"].collidepoint(x, y):
+                return f, c
+    return -1, -1
 
-    if fila < 0:
-        fila = 0
-    if col < 0:
-        col = 0
-
-
-    max_filas = 24  
-    max_columnas = 24
-    if fila >= max_filas:
-        fila = max_filas - 1
-    if col >= max_columnas:
-        col = max_columnas - 1
-
-    return fila, col
 
 def revelar_celda(tablero, fila, columna):
     if fila < 0 or fila >= len(tablero):

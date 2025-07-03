@@ -47,14 +47,12 @@ def menu_interaccion():
                     estado_juego["minas_generadas"] = False
 
                 if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
-                    fila, col = obtener_fila_columna(evento.pos)
+                    fila, col = obtener_fila_columna(evento.pos, estado_juego["tablero"])
+                    if estado_juego.get("minas_generadas") == False:
+                        generar_minas_asegurando_celda_segura(estado_juego["tablero"], estado_juego["minas"], fila, col)
+                        estado_juego["minas_generadas"] = True
+                    revelar_celda(estado_juego["tablero"], fila, col)
 
-                    if 0 <= fila < estado_juego["filas"] and 0 <= col < estado_juego["columnas"]:
-                        if estado_juego["minas_generadas"] == False:
-                            generar_minas_asegurando_celda_segura(estado_juego["tablero"], estado_juego["minas"], fila, col)
-                            estado_juego["minas_generadas"] = True
-
-                        revelar_celda(estado_juego["tablero"], fila, col)
 
 
                 dibujar_juego(configuraciones.get_pantalla_pygame(), evento, estado_juego)
