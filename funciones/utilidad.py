@@ -12,7 +12,8 @@ MARGEN = 1
 IMAGENES = {
     "bloque-vacio.png": pygame.image.load("imagenes/bloque-vacio.png"),
     "bomba.png": pygame.image.load("imagenes/bomba.png"),
-    "bandera.png": pygame.image.load("imagenes/bandera.png"),   
+    "bomba_explosion.png": pygame.image.load("imagenes/bomba_explosion.png"),
+    "bandera.png": pygame.image.load("imagenes/bandera.png"),
     "0.png": pygame.image.load("imagenes/0.png"), 
     "1.png": pygame.image.load("imagenes/1.png"),
     "2.png": pygame.image.load("imagenes/2.png"),

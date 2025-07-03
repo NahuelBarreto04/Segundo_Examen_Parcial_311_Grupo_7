@@ -1,5 +1,7 @@
 import pygame
 import random
+from .utilidad import MARGEN, TAM_CELDA
+
 randint = random.randint
 
 CELDA = {
@@ -40,6 +42,65 @@ def generar_minas(tablero: list, minas: int, BOMBA:dict):
             cant_minas -= 1
 
 
+def obtener_fila_columna(pos):
+    x, y = pos
+    col = (x - MARGEN) // (TAM_CELDA + MARGEN)
+    fila = (y - MARGEN) // (TAM_CELDA + MARGEN)
+    return fila, col
+
+def generar_minas_asegurando_celda_segura(tablero, minas, fila_segura, col_segura):
+    filas = len(tablero)
+    columnas = len(tablero[0])
+    cantidad_minas = minas
+    minas_puestas = 0
+    while minas_puestas < cantidad_minas:
+        f = random.randint(0, filas - 1)
+        c = random.randint(0, columnas - 1)
+
+        if f == fila_segura and c == col_segura:
+            continue
+        if tablero[f][c]["valor"] == "bloque-vacio.png":
+            tablero[f][c]["valor"] = "bomba.png"
+            minas_puestas += 1
+
+def obtener_fila_columna(pos):
+    x, y = pos
+    col = (x - MARGEN) // (TAM_CELDA + MARGEN)
+    fila = (y - MARGEN) // (TAM_CELDA + MARGEN)
+    
+    # Limitar valores para que no salgan del tablero
+    if fila < 0:
+        fila = 0
+    if col < 0:
+        col = 0
+
+    # Si conoces filas y columnas del tablero, valida tambien el maximo
+    # Ejemplo:
+    max_filas = 24  # reemplazar por tamaño actual del tablero
+    max_columnas = 24
+    if fila >= max_filas:
+        fila = max_filas - 1
+    if col >= max_columnas:
+        col = max_columnas - 1
+
+    return fila, col
+
+def revelar_celda(tablero, fila, columna):
+    if fila < 0 or fila >= len(tablero):
+        return
+    if columna < 0 or columna >= len(tablero[0]):
+        return
+    celda = tablero[fila][columna]
+    if celda["estado"] == True:
+        return
+    celda["estado"] = True  # Se marca como revelada
+
+    if celda["valor"] == "0.png":
+        # Recursivamente revela vecinos
+        for df in [-1, 0, 1]:
+            for dc in [-1, 0, 1]:
+                if df != 0 or dc != 0:
+                    revelar_celda(tablero, fila + df, columna + dc)
 
 
 

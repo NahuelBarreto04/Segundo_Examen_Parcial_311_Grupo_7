@@ -82,3 +82,67 @@ def dibujar_timer(pantalla,incio):
     x = pantalla.get_width() - texto.get_width() - 20
     y =20
     pantalla.blit(texto,(x,y))
+
+def iniciar_juego(pantalla, estado_juego):
+    estado_juego["juego_iniciado"] = True
+    estado_juego["inicio_timer"] = pygame.time.get_ticks()
+
+    dificultad_juego = {}
+
+    dificultad = configuraciones.get_dificultad_actual()
+    if dificultad == "facil":
+        dificultad_juego["filas"] = 8
+        dificultad_juego["columnas"] = 8
+        dificultad_juego["minas"] = 10
+    elif dificultad == "normal":
+        dificultad_juego["filas"] = 16
+        dificultad_juego["columnas"] = 16
+        dificultad_juego["minas"] = 50
+    else:
+        dificultad_juego["filas"] = 24
+        dificultad_juego["columnas"] = 24
+        dificultad_juego["minas"] = 120
+
+    tablero = generar_tablero(dificultad_juego["filas"], dificultad_juego["columnas"], CELDA)
+
+
+    FILAS = dificultad_juego["filas"]
+    COLUMNAS = dificultad_juego["columnas"]
+    ANCHO_TABLERO = COLUMNAS * (TAM_CELDA + MARGEN) + MARGEN
+    ALTO_TABLERO = FILAS * (TAM_CELDA + MARGEN) + MARGEN
+
+    inicializar_react_celdas(tablero, pantalla, MARGEN, TAM_CELDA, ANCHO_TABLERO, ALTO_TABLERO)
+
+    estado_juego["tablero"] = tablero
+    estado_juego["filas"] = FILAS
+    estado_juego["columnas"] = COLUMNAS
+    estado_juego["minas"] = dificultad_juego["minas"]
+
+
+
+def dibujar_juego(pantalla, evento, estado_juego):
+    pantalla.fill((0, 0, 0))
+
+    fuente = pygame.font.SysFont("arial", 50)
+    texto = fuente.render("Dificultad: " + configuraciones.get_dificultad_actual().upper(), True, (255, 255, 255))
+    pantalla.blit(texto, (20, 20))
+
+    fuente2 = pygame.font.SysFont("arial", 30)
+    if estado_juego["filas"] == 8:
+        desc = "tablero 8x8 con 10 minas"
+    elif estado_juego["filas"] == 16:
+        desc = "tablero 16x16 con 50 minas"
+    else:
+        desc = "tablero 24x24 con 120 minas"
+
+    texto2 = fuente2.render(desc, True, (200, 200, 200))
+    pantalla.blit(texto2, (20, 80))
+
+    dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES)
+    dibujar_timer(pantalla, estado_juego["inicio_timer"])
+
+    if dibujar_boton_volver(pantalla, evento):
+        configuraciones.set_pantalla_actual("menu")
+        estado_juego["juego_iniciado"] = False
+
+    pygame.display.flip()

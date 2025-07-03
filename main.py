@@ -1,9 +1,12 @@
 import pygame
 #from funciones.menu import mostrar_textos, dibujar_botones, manejar_click, get_pantalla_actual, set_pantalla_actual, dificultad_actual,pantalla_actual
-from funciones.pantallas import pantalla_juego
+from funciones.pantallas import *
 from funciones.menu import *
-from funciones.funciones import *
-from funciones import configuraciones
+from funciones.funciones import revelar_celda
+from funciones import *
+
+
+
 
 pygame.init()
 pygame.font.init()
@@ -23,25 +26,44 @@ def pantalla_menu():
     dibujar_botones(PANTALLA)
     pygame.display.flip()
 
+estado_juego = {"juego_iniciado": False}
+
 def menu_interaccion():
-    global inicio_timer
     while True:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
                 return
-            elif evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_ESCAPE:
-                    configuraciones.set_pantalla_actual("menu")
-            elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
-                if configuraciones.get_pantalla_actual() == "menu":
+            
+            if configuraciones.get_pantalla_actual() == "menu":
+                if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
                     manejar_click(evento.pos)
-                    # configuraciones.actualizar_resolucion()
-        if configuraciones.get_pantalla_actual() == "menu":
                 pantalla_menu()
-        elif configuraciones.get_pantalla_actual() == "juego":
-                pantalla_juego(configuraciones.get_pantalla_pygame(), evento)
-                # inicio_timer = pantalla_juego(PANTALLA,evento,inicio_timer)
+            
+            elif configuraciones.get_pantalla_actual() == "juego":
+                if estado_juego["juego_iniciado"] == False:
+                    iniciar_juego(configuraciones.get_pantalla_pygame(), estado_juego)
+                    estado_juego["minas_generadas"] = False  # ✅ Agregado: preparar bandera
+
+                if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+                    fila, col = obtener_fila_columna(evento.pos)
+
+                    if estado_juego["minas_generadas"] == False:
+                        generar_minas_asegurando_celda_segura(estado_juego["tablero"], estado_juego["minas"], fila, col)
+                        estado_juego["minas_generadas"] = True
+
+
+                    revelar_celda(estado_juego["tablero"], fila, col)
+
+                dibujar_juego(configuraciones.get_pantalla_pygame(), evento, estado_juego)
+
+
+
+
+
+
+
+            #inicio_timer = pantalla_juego(PANTALLA,evento,inicio_timer)
         
 
 # actualizar_resolucion()
