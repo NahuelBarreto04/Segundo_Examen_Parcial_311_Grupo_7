@@ -2,11 +2,15 @@ import pygame
 #Archivos de configuracion_juegoes
 #DICCIONARIO DE CONFIGURACION
 configuracion_juego = {
+    "tablero": [],
     "resolucion_actual": "800x600",
     "dificultad_actual": "facil",
     "pantalla_actual": "menu",
     "PANTALLA:": None
 }
+
+dificultad_juego = {}
+
 #React Pantalla
 def set_pantalla_pygame(pantalla):
     """Establece la Pantalla pygame"""
@@ -14,8 +18,6 @@ def set_pantalla_pygame(pantalla):
 
 def get_pantalla_pygame():
     return configuracion_juego["PANTALLA"]
-
-
 
 
 #Resolución
@@ -69,7 +71,7 @@ def get_pantalla_actual():
 
 def set_pantalla_actual(pantalla_actual):
     configuracion_juego["pantalla_actual"] = pantalla_actual
-    
+
 
 
 

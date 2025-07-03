@@ -6,7 +6,6 @@ from . import configuraciones
 inicio_timer = None
 
 def pantalla_juego(pantalla, evento,inicio_timer):
-    dificultad_juego = {}
 
     pantalla.fill((0,0,0))
 
@@ -25,19 +24,19 @@ def pantalla_juego(pantalla, evento,inicio_timer):
     fuente2 = pygame.font.SysFont("arial", 30)
     if dificultad == "facil":
         desc = "tablero 8x8 con 10 minas"
-        dificultad_juego["filas"] = 8
-        dificultad_juego["columnas"] = 8
-        dificultad_juego["minas"] = 10
+        configuraciones.dificultad_juego["filas"] = 8
+        configuraciones.dificultad_juego["columnas"] = 8
+        configuraciones.dificultad_juego["minas"] = 10
     elif dificultad == "normal":
         desc = "tablero 16x16 con 50 minas"
-        dificultad_juego["filas"] = 16
-        dificultad_juego["columnas"] = 16
-        dificultad_juego["minas"] = 50
+        configuraciones.dificultad_juego["filas"] = 16
+        configuraciones.dificultad_juego["columnas"] = 16
+        configuraciones.dificultad_juego["minas"] = 50
     else:
         desc = "tablero 24x24 con 120 minas"
-        dificultad_juego["filas"] = 24
-        dificultad_juego["columnas"] = 24
-        dificultad_juego["minas"] = 120
+        configuraciones.dificultad_juego["filas"] = 24
+        configuraciones.dificultad_juego["columnas"] = 24
+        configuraciones.dificultad_juego["minas"] = 120
 
     texto2 = fuente2.render(desc, True, (200,200,200))
     x2 = 20
@@ -46,15 +45,13 @@ def pantalla_juego(pantalla, evento,inicio_timer):
 
 
 
-    # Lógica del tablero
-    tablero = generar_tablero(dificultad_juego["filas"], dificultad_juego["columnas"], CELDA)
-    generar_minas(tablero, dificultad_juego["minas"], CELDA)
-
-    FILAS = dificultad_juego["filas"]
-    COLUMNAS = dificultad_juego["columnas"]
+    # Generacion de tablero 
+    FILAS = configuraciones.dificultad_juego["filas"]
+    COLUMNAS = configuraciones.dificultad_juego["columnas"]
 
     ANCHO_TABLERO = COLUMNAS * (TAM_CELDA + MARGEN) + MARGEN
     ALTO_TABLERO = FILAS * (TAM_CELDA + MARGEN) + MARGEN
+    
     
     inicializar_react_celdas(tablero, pantalla, MARGEN, TAM_CELDA, ANCHO_TABLERO, ALTO_TABLERO)
 

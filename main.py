@@ -18,7 +18,6 @@ inicio_timer = None
 def pantalla_menu():
     PANTALLA = configuraciones.get_pantalla_pygame()
     PANTALLA.fill(COLOR_FONDO)
-    print(PANTALLA)
     mostrar_textos(PANTALLA)
     dibujar_botones(PANTALLA)
     pygame.display.flip()
@@ -40,7 +39,7 @@ def menu_interaccion():
         if configuraciones.get_pantalla_actual() == "menu":
                 pantalla_menu()
         elif configuraciones.get_pantalla_actual() == "juego":
-                pantalla_juego(configuraciones.get_pantalla_pygame(), evento)
+                pantalla_juego(configuraciones.get_pantalla_pygame(), evento, inicio_timer)
                 # inicio_timer = pantalla_juego(PANTALLA,evento,inicio_timer)
         
 

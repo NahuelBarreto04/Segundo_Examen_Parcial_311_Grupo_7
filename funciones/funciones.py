@@ -1,5 +1,6 @@
 import pygame
 import random
+import configuraciones
 randint = random.randint
 
 CELDA = {
@@ -40,8 +41,18 @@ def generar_minas(tablero: list, minas: int, BOMBA:dict):
             cant_minas -= 1
 
 
+configuraciones.dificultad_juego["filas"] = 16
+configuraciones.dificultad_juego["columnas"] = 16
+configuraciones.dificultad_juego["minas"] = 50
+#Logica del Tablero
+def iniciacializar_tablero(nueva_partida):
+    tablero = []
+    if nueva_partida:
+        tablero = generar_tablero(configuraciones.dificultad_juego["filas"], configuraciones.dificultad_juego["columnas"], CELDA)
+        generar_minas(tablero, configuraciones.dificultad_juego["minas"], CELDA)
+        configuraciones.configuracion_juego["tablero"] = tablero 
 
-
+iniciacializar_tablero()
 
 # def dibujar_tablero(tablero:list):
     
