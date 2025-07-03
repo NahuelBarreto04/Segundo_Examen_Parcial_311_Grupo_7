@@ -1,5 +1,7 @@
 import pygame
 from . import configuraciones
+from funciones.menu import *
+
 
 BOTONES = []
 
@@ -10,6 +12,7 @@ def mostrar_textos(pantalla):
     x = (pantalla.get_width() - texto.get_width()) // 2
     y = 30
     pantalla.blit(texto, (x, y))
+
 
 def dibujar_botones(pantalla):
     BOTONES.clear()
@@ -30,14 +33,14 @@ def dibujar_botones(pantalla):
 
         BOTONES.append(rect) 
 
-def manejar_click(pos):
+def manejar_click(pos, estado_juego):
     for i in range(len(BOTONES)):
         if BOTONES[i].collidepoint(pos):
-            ejecutar_funcion(i)
+            ejecutar_funcion(i, estado_juego)
 
-def ejecutar_funcion(indice):
+def ejecutar_funcion(indice, estado_juego):
     if indice == 0:
-        jugar()
+        jugar(estado_juego)
     elif indice == 1:
         configuraciones.cambiar_dificultad()
     elif indice == 2:
@@ -47,8 +50,13 @@ def ejecutar_funcion(indice):
     elif indice == 4:
         salir()
 
-def jugar():
+def jugar(estado_juego):
+    estado_juego.clear()
+    estado_juego["juego_iniciado"] = False
+    estado_juego["perdio"] = False
     configuraciones.set_pantalla_actual("juego")
+
+
 
 
 def ver_puntajes():

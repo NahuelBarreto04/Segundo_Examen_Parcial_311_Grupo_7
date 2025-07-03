@@ -74,14 +74,20 @@ def pantalla_juego(pantalla, evento,inicio_timer):
     pygame.display.flip()
     return inicio_timer
 
-def dibujar_timer(pantalla,incio):
-    fuente = pygame.font.SysFont("arial",30)
-    ahora = pygame.time.get_ticks()
-    segundos= (ahora - incio) // 1000
-    texto = fuente.render("tiempo: " + str(segundos) + "s",True,(255,255,255))
+def dibujar_timer(pantalla, estado_juego):
+    fuente = pygame.font.SysFont("arial", 30)
+    
+    if estado_juego.get("perdio"):
+        segundos = estado_juego.get("tiempo_final", 0)
+    else:
+        ahora = pygame.time.get_ticks()
+        segundos = (ahora - estado_juego["inicio_timer"]) // 1000
+
+    texto = fuente.render("tiempo: " + str(segundos) + "s", True, (255, 255, 255))
     x = pantalla.get_width() - texto.get_width() - 20
-    y =20
-    pantalla.blit(texto,(x,y))
+    y = 20
+    pantalla.blit(texto, (x, y))
+
 
 MAX_AREA = 600
 
@@ -151,23 +157,12 @@ def dibujar_juego(pantalla, evento, estado_juego):
     pantalla.blit(texto2, (20, 80))
 
     dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES)
-    dibujar_timer(pantalla, estado_juego["inicio_timer"])
+    dibujar_timer(pantalla, estado_juego)
 
-    
+    # ✅ EL BOTON SIEMPRE SE DIBUJA
     if dibujar_boton_volver(pantalla, evento):
         configuraciones.set_pantalla_actual("menu")
         estado_juego["juego_iniciado"] = False
 
     pygame.display.flip()
 
-
-
-    if evento is not None:
-        if dibujar_boton_volver(pantalla, evento):
-            configuraciones.set_pantalla_actual("menu")
-            estado_juego["juego_iniciado"] = False
-
-    pygame.display.flip()
-
-
-    pygame.display.flip()

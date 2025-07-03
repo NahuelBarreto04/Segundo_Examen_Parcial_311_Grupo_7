@@ -80,17 +80,26 @@ def revelar_celda(tablero, fila, columna):
         return
     if columna < 0 or columna >= len(tablero[0]):
         return
+
     celda = tablero[fila][columna]
     if celda["estado"] == True:
         return
-    celda["estado"] = True 
+
+    if celda["valor"] == "bomba.png":
+        celda["valor"] = "bomba_explosion.png"
+        celda["estado"] = True
+        return "perdiste"
+
+    celda["estado"] = True
 
     if celda["valor"] == "0.png":
-        
         for df in [-1, 0, 1]:
             for dc in [-1, 0, 1]:
                 if df != 0 or dc != 0:
                     revelar_celda(tablero, fila + df, columna + dc)
+
+
+
 
 
 
