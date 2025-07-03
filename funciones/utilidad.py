@@ -24,7 +24,7 @@ IMAGENES = {
     "7.png": pygame.image.load("imagenes/7.png"),
     "8.png": pygame.image.load("imagenes/8.png")
 }
-#separa el key y el value de los items
+
 for nombre_img,img_superficie in IMAGENES.items():
     IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 

@@ -68,15 +68,14 @@ def obtener_fila_columna(pos):
     col = (x - MARGEN) // (TAM_CELDA + MARGEN)
     fila = (y - MARGEN) // (TAM_CELDA + MARGEN)
     
-    # Limitar valores para que no salgan del tablero
+
     if fila < 0:
         fila = 0
     if col < 0:
         col = 0
 
-    # Si conoces filas y columnas del tablero, valida tambien el maximo
-    # Ejemplo:
-    max_filas = 24  # reemplazar por tamaño actual del tablero
+
+    max_filas = 24  
     max_columnas = 24
     if fila >= max_filas:
         fila = max_filas - 1
@@ -93,10 +92,10 @@ def revelar_celda(tablero, fila, columna):
     celda = tablero[fila][columna]
     if celda["estado"] == True:
         return
-    celda["estado"] = True  # Se marca como revelada
+    celda["estado"] = True 
 
     if celda["valor"] == "0.png":
-        # Recursivamente revela vecinos
+        
         for df in [-1, 0, 1]:
             for dc in [-1, 0, 1]:
                 if df != 0 or dc != 0:
