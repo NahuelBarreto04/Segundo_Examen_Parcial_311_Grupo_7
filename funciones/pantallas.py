@@ -50,6 +50,7 @@ def iniciar_juego(pantalla, estado_juego):
     estado_juego["columnas"] = columnas
     estado_juego["minas"] = minas
     estado_juego["tam_celda"] = tam_celda
+    estado_juego["banderas_puestas"] = 0
 
 def dibujar_juego(pantalla, evento, estado_juego):
     
@@ -71,6 +72,7 @@ def dibujar_juego(pantalla, evento, estado_juego):
 
     dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES, estado_juego["perdio"])
     dibujar_timer(pantalla, estado_juego)
+    dibujar_contador_banderas(pantalla, estado_juego)
 
     # EL BOTON SIEMPRE SE DIBUJA
     if dibujar_boton_volver(pantalla, evento):
@@ -95,6 +97,14 @@ def dibujar_timer(pantalla, estado_juego):
     y = 20
     pantalla.blit(texto, (x, y))
 
+def dibujar_contador_banderas(pantalla, estado_juego):
+    fuente = pygame.font.SysFont("arial", 30)
+    banderas = estado_juego.get("banderas_puestas", 0)
+    max_banderas = estado_juego.get("minas", 0)
+    texto = fuente.render("Banderas: " + str(banderas) + " / " + str(max_banderas), True, (255, 255, 255))
+    x = 20
+    y = 80
+    pantalla.blit(texto, (x, y))
 
 
 
