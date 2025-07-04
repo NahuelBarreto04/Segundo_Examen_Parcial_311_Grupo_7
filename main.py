@@ -70,6 +70,7 @@ def menu_interaccion():
                                         estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
 
                         elif evento.button == 3:  # Click derecho
+                            print(estado_juego["tablero"])
                             celda = estado_juego["tablero"][fila][col]
 
     # SOLO si la celda NO esta revelada
