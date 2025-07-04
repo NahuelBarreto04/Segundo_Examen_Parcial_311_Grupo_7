@@ -51,7 +51,7 @@ def ejecutar_funcion(indice, estado_juego):
         salir()
 
 def jugar(estado_juego):
-    estado_juego.clear()
+    # estado_juego.clear()
     estado_juego["juego_iniciado"] = False
     estado_juego["perdio"] = False
     configuraciones.set_pantalla_actual("juego")

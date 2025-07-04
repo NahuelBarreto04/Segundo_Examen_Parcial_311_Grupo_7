@@ -9,7 +9,7 @@ configuracion_juego = {
     "PANTALLA:": None
 }
 
-dificultad_juego = {}
+# dificultad_juego = {}
 
 #React Pantalla
 def set_pantalla_pygame(pantalla):

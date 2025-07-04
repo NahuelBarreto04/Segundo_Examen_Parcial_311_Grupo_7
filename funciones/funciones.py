@@ -1,14 +1,15 @@
 import pygame
 import random
-import configuraciones
+# import configuraciones
 from .utilidad import MARGEN, TAM_CELDA
 
 randint = random.randint
 
 CELDA = {
-    "valor": "bloque-vacio.png",
+    "valor": "bloque-vacio",
     "rect": "",
     "estado": False}
+
 
 def generar_tablero(filas:int, columnas:int, valor:any):
     tablero = []
@@ -22,38 +23,49 @@ def generar_tablero(filas:int, columnas:int, valor:any):
 
 
 def mostrar_tablero(tablero):
-    # print(tablero)
     for i in range(len(tablero)):
         for j in range(len(tablero[i])):
             print(tablero[i][j]["valor"], end=" ")
         print("")
     print(" ")
 
-tablero = generar_tablero(8,8,CELDA)      
-mostrar_tablero(tablero)
 
 
-def generar_minas(tablero: list, minas: int, BOMBA:dict):
+def obtener_fila_columna(pos, tablero):
+    x, y = pos
+    for f in range(len(tablero)):
+        for c in range(len(tablero[0])):
+            if tablero[f][c]["rect"].collidepoint(x, y):
+                return f, c
+    return -1, -1
+
+def generar_minas(tablero: list, minas: int, fila_click: int, columna_click: int, estado_juego:dict):
+    estado_juego["primera_celda"] = False
     cant_minas = minas
+    primer_fila = 0
+    primer_columna = 0
+
     while cant_minas > 0:
         fila = randint(0, len(tablero)- 1)
         columna = randint(0, len(tablero[0])- 1)
-        if tablero[fila][columna]["valor"] == "bloque-vacio.png":
-            tablero[fila][columna]["valor"] = "bomba.png"
+        if estado_juego["primera_celda"] == False:
+            # print(primer_fila, primer_columna, "test")
+            primer_fila = fila_click
+            primer_columna = columna_click
+            estado_juego["primera_celda"] = True
+            continue
+
+        if fila == primer_fila and columna == primer_columna:
+            continue
+
+        if tablero[fila][columna]["valor"] == "bloque-vacio":
+            tablero[fila][columna]["valor"] = "bomba"
+            tablero[fila][columna]["estado"] = False
             cant_minas -= 1
 
 
-configuraciones.dificultad_juego["filas"] = 16
-configuraciones.dificultad_juego["columnas"] = 16
-configuraciones.dificultad_juego["minas"] = 50
-#Logica del Tablero
-def iniciacializar_tablero(nueva_partida):
-    tablero = []
-    if nueva_partida:
-        tablero = generar_tablero(configuraciones.dificultad_juego["filas"], configuraciones.dificultad_juego["columnas"], CELDA)
-        generar_minas(tablero, configuraciones.dificultad_juego["minas"], CELDA)
-        configuraciones.configuracion_juego["tablero"] = tablero 
-        
+
+
 def obtener_fila_columna(pos, tablero):
     x, y = pos
     for f in range(len(tablero)):
@@ -63,59 +75,72 @@ def obtener_fila_columna(pos, tablero):
     return -1, -1
 
 
-def generar_minas_asegurando_celda_segura(tablero, minas, fila_segura, col_segura):
+
+
+#Calculo de numeros ad
+def calcular_numeros(tablero):
     filas = len(tablero)
     columnas = len(tablero[0])
-    minas_puestas = 0
-    while minas_puestas < minas:
-        f = random.randint(0, filas - 1)
-        c = random.randint(0, columnas - 1)
 
-        if f == fila_segura and c == col_segura:
-            continue
-        if tablero[f][c]["valor"] == "bloque-vacio.png":
-            tablero[f][c]["valor"] = "bomba.png"
-            minas_puestas += 1
+    for r in range(filas):
+        for c in range(columnas):
+            if tablero[r][c]["valor"] == "bomba":
+                continue # Saltar las bombas
+
+            count = 0
+            # Comprobar los 8 vecinos
+            for dr in [-1, 0, 1]:
+                for dc in [-1, 0, 1]:
+                    if dr == 0 and dc == 0:
+                        continue # Salta la celda actual
+
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < filas and 0 <= nc < columnas:
+                        if tablero[nr][nc]["valor"] == "bomba":
+                            count += 1
+            tablero[r][c]["valor"] = str(count) # guarda como string para la imagen
 
 
-def obtener_fila_columna(pos, tablero):
-    x, y = pos
-    for f in range(len(tablero)):
-        for c in range(len(tablero[0])):
-            if tablero[f][c]["rect"].collidepoint(x, y):
-                return f, c
-    return -1, -1
 
 
-def revelar_celda(tablero, fila, columna):
-    if fila < 0 or fila >= len(tablero):
-        return
-    if columna < 0 or columna >= len(tablero[0]):
-        return
+
+
+def revelar_celda(estado_juego, fila, columna):
+    tablero = estado_juego["tablero"]
+    
+    if not (0 <= fila < len(tablero) and 0 <= columna < len(tablero[0])):
+        return None
 
     celda = tablero[fila][columna]
+
     if celda["estado"] == True:
-        return
+        return None
 
-    if celda["valor"] == "bomba.png":
-        celda["valor"] = "bomba_explosion.png"
-        celda["estado"] = True
-        return "perdiste"
+    # 3. Si es una BOMBA
+    if celda["valor"] == "bomba":
+        celda["valor"] = "bomba_explosion" # Cambiamos a la imagen de explosión
+        celda["estado"] = True            # La marcamos como revelada
+        return "perdiste"                 # Indicamos que el juego ha terminado
 
-    celda["estado"] = True
+    # 4. Si no es una bomba y no está revelada:
+    celda["estado"] = True 
 
-    if celda["valor"] == "0.png":
+    #si la celda revelada es '0' (vacía)
+    # revela sus 8 vecinos.
+    if celda["valor"] == "0":
         for df in [-1, 0, 1]:
             for dc in [-1, 0, 1]:
-                if df != 0 or dc != 0:
-                    revelar_celda(tablero, fila + df, columna + dc)
+                if df == 0 and dc == 0:
+                    continue #Salta la celda actual
+
+                # Llamada recursiva para revelar los vecinos
+                # La recursión continuará solo si los vecinos también son '0'
+                revelar_celda(estado_juego, fila + df, columna + dc)
+    
+
+    return None
 
 
-
-
-iniciacializar_tablero()
-
-# def dibujar_tablero(tablero:list):
     
 
 

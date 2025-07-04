@@ -10,19 +10,19 @@ MARGEN = 1
 
 
 IMAGENES = {
-    "bloque-vacio.png": pygame.image.load("imagenes/bloque-vacio.png"),
-    "bomba.png": pygame.image.load("imagenes/bomba.png"),
-    "bomba_explosion.png": pygame.image.load("imagenes/bomba_explosion.png"),
-    "bandera.png": pygame.image.load("imagenes/bandera.png"),
-    "0.png": pygame.image.load("imagenes/0.png"), 
-    "1.png": pygame.image.load("imagenes/1.png"),
-    "2.png": pygame.image.load("imagenes/2.png"),
-    "3.png": pygame.image.load("imagenes/3.png"),
-    "4.png": pygame.image.load("imagenes/4.png"),
-    "5.png": pygame.image.load("imagenes/5.png"),
-    "6.png": pygame.image.load("imagenes/6.png"),
-    "7.png": pygame.image.load("imagenes/7.png"),
-    "8.png": pygame.image.load("imagenes/8.png")
+    "bloque-vacio": pygame.image.load("imagenes/bloque-vacio.png"),
+    "bomba": pygame.image.load("imagenes/bomba.png"),
+    "bomba_explosion": pygame.image.load("imagenes/bomba_explosion.png"),
+    "bandera": pygame.image.load("imagenes/bandera.png"),
+    "0": pygame.image.load("imagenes/0.png"), 
+    "1": pygame.image.load("imagenes/1.png"),
+    "2": pygame.image.load("imagenes/2.png"),
+    "3": pygame.image.load("imagenes/3.png"),
+    "4": pygame.image.load("imagenes/4.png"),
+    "5": pygame.image.load("imagenes/5.png"),
+    "6": pygame.image.load("imagenes/6.png"),
+    "7": pygame.image.load("imagenes/7.png"),
+    "8": pygame.image.load("imagenes/8.png")
 }
 
 for nombre_img,img_superficie in IMAGENES.items():
@@ -40,12 +40,21 @@ def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero
 
 
 
-def dibujar_tablero(pantalla, tablero, imagenes):
+def dibujar_tablero(pantalla, tablero, imagenes, juego_perdido):
     for fila in tablero:
         for celda in fila:
             if celda["rect"]:
-                imagen = pygame.transform.scale(imagenes[celda["valor"]], (celda["rect"].width, celda["rect"].height))
+                imagen_celda = ""
+                if celda["estado"] == True:
+                    imagen_celda = celda["valor"]
+                else:
+                    if juego_perdido and celda["valor"] == "bomba":
+                        imagen_celda = "bomba" # Mostrar bombas cuando se pierde
+                    else:
+                        imagen_celda = "bloque-vacio" # De lo contrario, es un bloque oculto
+                imagen = pygame.transform.scale(imagenes[imagen_celda], (celda["rect"].width, celda["rect"].height))
                 pantalla.blit(imagen, celda["rect"])
+          
 
 
             
