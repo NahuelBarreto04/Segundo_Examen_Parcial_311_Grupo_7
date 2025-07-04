@@ -73,7 +73,6 @@ def dibujar_juego(pantalla, evento, estado_juego):
     dibujar_contador_banderas(pantalla, estado_juego)
     dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES, estado_juego["perdio"])
 
-    # ⬇ ACA pega el bloque nuevo para GANASTE
     if estado_juego.get("gano"):
         fuente = pygame.font.SysFont("arial", 60, bold=True)
         texto = fuente.render("GANASTE!", True, (0, 255, 0))
@@ -88,11 +87,49 @@ def dibujar_juego(pantalla, evento, estado_juego):
         pantalla.blit(sombra, (x + 3, y + 3))
         pantalla.blit(texto, (x, y))
 
+    if estado_juego.get("perdio"):
+        fuente = pygame.font.SysFont("arial", 60, bold=True)
+        texto = fuente.render("DERROTA", True, (255, 0, 0))
+        sombra = fuente.render("DERROTA", True, (0, 0, 0))
+
+        x = (pantalla.get_width() - texto.get_width()) // 2
+        y = pantalla.get_height() // 2 - texto.get_height() // 2
+
+        fondo_rect = pygame.Rect(x - 20, y - 20, texto.get_width() + 40, texto.get_height() + 40)
+        pygame.draw.rect(pantalla, (20, 20, 20), fondo_rect, border_radius=15)
+
+        pantalla.blit(sombra, (x + 3, y + 3))
+        pantalla.blit(texto, (x, y))
+
     if dibujar_boton_volver(pantalla, evento):
         configuraciones.set_pantalla_actual("menu")
         estado_juego["juego_iniciado"] = False
 
+    if dibujar_boton_reiniciar(pantalla, evento):
+        estado_juego.clear()
+        estado_juego["juego_iniciado"] = False
+        estado_juego["perdio"] = False
+
+
     pygame.display.flip()
+
+
+def dibujar_boton_reiniciar(pantalla, evento):
+    fuente = pygame.font.SysFont("arial", 25)
+    texto = fuente.render("reiniciar", True, (255, 255, 255))
+    ancho = texto.get_width() + 20
+    alto = texto.get_height() + 10
+    x = pantalla.get_width() - ancho - 20
+    y = pantalla.get_height() - alto - 10
+    rect_reiniciar = pygame.Rect(x, y, ancho, alto)
+
+    pygame.draw.rect(pantalla, (80, 80, 80), rect_reiniciar)
+    pantalla.blit(texto, (x + 10, y + 5))
+
+    if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+        if rect_reiniciar.collidepoint(evento.pos):
+            return True
+    return False
 
 
 
