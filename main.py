@@ -60,6 +60,8 @@ def menu_interaccion():
         if configuraciones.get_pantalla_actual() == "menu":
             if evento and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
                 manejar_click(evento.pos, estado_juego)
+                pantalla_actual = "menu"
+                print(pantalla_actual)
             pantalla_menu()
 
         elif configuraciones.get_pantalla_actual() == "puntaje":

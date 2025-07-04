@@ -38,7 +38,6 @@ def dibujar_botones(pantalla):
     BOTONES.clear()
     textos = ["Jugar", f"Dificultad: ({configuraciones.get_dificultad_actual()})", "Puntajes", f"resoluciones ({configuraciones.configuracion_juego['resolucion_actual']})", "Salir"]
 
-
     for i in range(len(textos)):
         w = pantalla.get_width() // 4
         h = pantalla.get_height() // 12
@@ -48,12 +47,21 @@ def dibujar_botones(pantalla):
         rect = pygame.Rect(x, y, w, h)
         pygame.draw.rect(pantalla, (100, 100, 100), rect)
 
-        fuente = pygame.font.SysFont("arial", h // 2)
-        texto = fuente.render(textos[i], True, (255, 255, 255)) 
+        
+        fuente_size = h // 2
+        fuente = pygame.font.SysFont("arial", fuente_size)
+        texto = fuente.render(textos[i], True, (255, 255, 255))
+
+        
+        if texto.get_width() > w - 20:
+            fuente_size = int(fuente_size * 0.8)  
+            fuente = pygame.font.SysFont("arial", fuente_size)
+            texto = fuente.render(textos[i], True, (255, 255, 255))
 
         pantalla.blit(texto, (x + (w - texto.get_width()) // 2, y + (h - texto.get_height()) // 2))
 
-        BOTONES.append(rect) 
+        BOTONES.append(rect)
+
 
 def manejar_click(pos, estado_juego):
     for i in range(len(BOTONES)):
