@@ -1,7 +1,7 @@
 import pygame
 import random
 # import configuraciones
-from .utilidad import MARGEN, TAM_CELDA
+from .utilidad import MARGEN, TAM_CELDA,SONIDOS
 
 randint = random.randint
 
@@ -62,7 +62,7 @@ def generar_minas(tablero, minas, fila_click, columna_click, estado_juego):
 
 
 
-def obtener_fila_columna(pos, tablero):
+def obtener_fila_columna(pos, tablero:list) -> int:
     x, y = pos
     for f in range(len(tablero)):
         for c in range(len(tablero[0])):
@@ -74,7 +74,7 @@ def obtener_fila_columna(pos, tablero):
 
 
 #Calculo de numeros ad
-def calcular_numeros(tablero):
+def calcular_numeros(tablero:list) -> None:
     filas = len(tablero)
     columnas = len(tablero[0])
 
@@ -101,7 +101,7 @@ def calcular_numeros(tablero):
 
 
 
-def revelar_celda(estado_juego, fila, columna):
+def revelar_celda(estado_juego, fila, columna) -> bool:
     tablero = estado_juego["tablero"]
     
     if not (0 <= fila < len(tablero) and 0 <= columna < len(tablero[0])):
@@ -134,7 +134,7 @@ def revelar_celda(estado_juego, fila, columna):
 
 
 
-def verificar_ganador(estado_juego):
+def verificar_ganador(estado_juego:dict) -> bool:
     tablero = estado_juego["tablero"]
     for fila in tablero:
         for celda in fila:
@@ -150,3 +150,11 @@ def resetear_juego(estado_juego:dict):
     estado_juego["minas_generadas"] = False
 
 
+
+def reproducir_musica(nombre_musica: str,estado_jugo: dict):
+    if estado_jugo["musica_actual"] != nombre_musica:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(SONIDOS[nombre_musica])
+        pygame.mixer.music.play(-1) 
+        pygame.mixer.music.set_volume(0.5)
+        estado_jugo["musica_actual"] = nombre_musica

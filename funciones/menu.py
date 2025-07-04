@@ -1,8 +1,5 @@
 import pygame
 from . import configuraciones
-from .menu import *
-from .puntajes import *
-from funciones.menu import *
 from funciones.utilidad import IMAGENES
 
 
