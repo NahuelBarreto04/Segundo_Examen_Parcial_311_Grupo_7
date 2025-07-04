@@ -142,6 +142,18 @@ def verificar_ganador(estado_juego):
                 return False
     return True
 
+def calcular_puntaje(dificultad:str, tiempo:int):
+    if dificultad == "facil":
+        base = 1000
+    elif dificultad == "normal":
+        base = 2000
+    else:
+        base = 3000
+
+    puntaje = base - tiempo * 10
+    if puntaje < 0:
+        puntaje = 0
+    return puntaje
 
 
 def resetear_juego(estado_juego:dict):
