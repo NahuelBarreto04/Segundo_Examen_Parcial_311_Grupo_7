@@ -1,8 +1,9 @@
 import pygame
 from funciones.pantallas import *
 from funciones.menu import *
-from funciones.funciones import revelar_celda
 from funciones import *
+from funciones.utilidad import IMAGENES, SONIDOS
+from funciones.puntajes import *
 
 pygame.init()
 pygame.font.init()
@@ -16,9 +17,20 @@ estado_juego = {
     "juego_iniciado": False,
     "perdio": False
 }
+mixer_config = pygame.mixer
+mixer_config.init()
+mixer_config.music.load(SONIDOS["musica_fondo"])
+mixer_config.music.play(-1)
+mixer_config.music.set_volume(0.05)
+
+
+
+
 def pantalla_menu():
     pantalla = configuraciones.get_pantalla_pygame()
     pantalla.fill(COLOR_FONDO)
+    # fondo = pygame.transform.scale(IMAGENES["fondo_menu"], pantalla.get_size())
+    # pantalla.blit(fondo, (0, 0))
     mostrar_textos(pantalla)
     dibujar_botones(pantalla)
     pygame.display.flip()
@@ -42,10 +54,17 @@ def menu_interaccion():
                 manejar_click(evento.pos, estado_juego)
             pantalla_menu()
 
+        elif configuraciones.get_pantalla_actual() == "puntaje":
+            pantalla_puntajes(configuraciones.get_pantalla_pygame(), evento)
+
         elif configuraciones.get_pantalla_actual() == "juego":
             if estado_juego["juego_iniciado"] == False:
                 iniciar_juego(configuraciones.get_pantalla_pygame(), estado_juego)
                 estado_juego["minas_generadas"] = False
+
+        
+
+
 
             if evento and evento.type == pygame.MOUSEBUTTONDOWN:
                 if estado_juego["perdio"] == False and estado_juego.get("gano") == False:

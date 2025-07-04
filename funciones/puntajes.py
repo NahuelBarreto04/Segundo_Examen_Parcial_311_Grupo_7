@@ -1,4 +1,31 @@
 import pygame
+import pygame
+from .utilidad import IMAGENES, dibujar_boton_volver
+from .configuraciones import *
+
+
+def pantalla_puntajes(pantalla, evento):
+    # pantalla.fill((0, 0, 0))
+    # --- Dibujar Imagen de Fondo ---
+
+    fondo = pygame.transform.scale(IMAGENES["fondo_puntajes"], pantalla.get_size())
+    pantalla.blit(fondo, (0, 0))
+    # -------------------------------
+    
+    # Aquí iría tu lógica para mostrar los puntajes
+    fuente_titulo = pygame.font.SysFont("arial", 50)
+    texto_titulo = fuente_titulo.render("Puntajes Altos", True, (255, 255, 255))
+    rect_titulo = texto_titulo.get_rect(center=(pantalla.get_width() // 2, 100))
+    pantalla.blit(texto_titulo, rect_titulo)
+
+
+    if dibujar_boton_volver(pantalla, evento): 
+        set_pantalla_actual("menu")
+    
+    pygame.display.flip()
+
+
+
 
 def dibujar_victoria(pantalla):
     fuente = pygame.font.SysFont("arial", 60, bold=True)

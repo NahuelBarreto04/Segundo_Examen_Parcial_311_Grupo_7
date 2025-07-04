@@ -78,9 +78,9 @@ def calcular_numeros(tablero):
     filas = len(tablero)
     columnas = len(tablero[0])
 
-    for r in range(filas):
+    for f in range(filas):
         for c in range(columnas):
-            if tablero[r][c]["valor"] == "bomba":
+            if tablero[f][c]["valor"] == "bomba":
                 continue # Saltar las bombas
 
             count = 0
@@ -90,11 +90,11 @@ def calcular_numeros(tablero):
                     if dr == 0 and dc == 0:
                         continue # Salta la celda actual
 
-                    nr, nc = r + dr, c + dc
+                    nr, nc = f + dr, c + dc
                     if 0 <= nr < filas and 0 <= nc < columnas:
                         if tablero[nr][nc]["valor"] == "bomba":
                             count += 1
-            tablero[r][c]["valor"] = str(count) # guarda como string para la imagen
+            tablero[f][c]["valor"] = str(count) # guarda como string para la imagen
 
 
 
@@ -144,6 +144,9 @@ def verificar_ganador(estado_juego):
 
 
 
-
+def resetear_juego(estado_juego:dict):
+    estado_juego["juego_iniciado"] = False
+    estado_juego["perdio"] = False
+    estado_juego["minas_generadas"] = False
 
 

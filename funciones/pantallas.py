@@ -1,5 +1,5 @@
 import pygame
-import time
+# import time
 from .utilidad import *
 from .funciones import *
 from .puntajes import dibujar_victoria
@@ -73,10 +73,10 @@ def dibujar_juego(pantalla, evento, estado_juego):
     dibujar_timer(pantalla, estado_juego)
     dibujar_contador_banderas(pantalla, estado_juego)
     dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES, estado_juego["perdio"])
-    boton_reinicio = dibujar_boton_reinicio(pantalla)
-    controlar_reinicio(evento, boton_reinicio)
 
-
+    rect_boton_reinicio = dibujar_boton_reinicio(configuraciones.get_pantalla_pygame(), IMAGENES)
+    controlar_boton_reinicio(evento, rect_boton_reinicio, estado_juego)
+    
     #Victoria
     if estado_juego.get("gano"):
        dibujar_victoria(pantalla)
@@ -117,29 +117,27 @@ def dibujar_contador_banderas(pantalla, estado_juego):
 
 
 
-#CAMBIAR PARA EL BOTON REINICIO
-def dibujar_boton_reinicio(pantalla):
-    fuente = pygame.font.SysFont("arial", 25)
-    texto = fuente.render("volver al menu", True, (255, 255, 255))
-    ancho = texto.get_width() + 20
-    alto = texto.get_height() + 10
-    x = 40
-    y = pantalla.get_height() - alto - 20
-    rect_reinicio = pygame.Rect(x, y, ancho, alto)
+#BOTON REINICIO
+def dibujar_boton_reinicio(pantalla, imagenes):
+    ancho_boton = 60
+    alto_boton = 60
+    x = pantalla.get_width() // 2 - ancho_boton // 2
+    y = 20
+    rect_reinicio = pygame.Rect(x, y, ancho_boton, alto_boton)
+    
+    imagen_escalada = pygame.transform.scale(imagenes["cara"], (ancho_boton, alto_boton))
+    
+    pantalla.blit(imagen_escalada, rect_reinicio)
 
-
-    pygame.draw.rect(pantalla, (80, 80, 80), rect_reinicio)
-    pantalla.blit(texto, (x + 10, y + 5))
     return rect_reinicio
 
 
-def controlar_reinicio(evento, rect_reinicio):
+def controlar_boton_reinicio(evento, rect_reinicio, estado_juego):
     if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
         if rect_reinicio.collidepoint(evento.pos):
-            print("reinicioo")
+            resetear_juego(estado_juego)
             return True
     return False
-
 
 
 

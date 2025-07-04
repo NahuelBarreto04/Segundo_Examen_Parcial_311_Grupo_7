@@ -7,7 +7,9 @@ import pygame
 TAM_CELDA = 40
 MARGEN = 1
 
-
+SONIDOS = {
+    "musica_fondo": "sonidos/musica_menu.mp3"
+}
 
 IMAGENES = {
     "bloque-vacio": pygame.image.load("imagenes/bloque-vacio.png"),
@@ -22,11 +24,18 @@ IMAGENES = {
     "5": pygame.image.load("imagenes/5.png"),
     "6": pygame.image.load("imagenes/6.png"),
     "7": pygame.image.load("imagenes/7.png"),
-    "8": pygame.image.load("imagenes/8.png")
+    "8": pygame.image.load("imagenes/8.png"),
+    "cara": pygame.image.load("imagenes/cara.png"),
+    "cara1": pygame.image.load("imagenes/cara1.png"),
+    "cara2": pygame.image.load("imagenes/cara2.png"),
+    "fondo_puntajes": pygame.image.load("imagenes/fondos/fondo_puntajes.jpg"),
+    # "fondo_menu": pygame.image.load("imagenes/fondos/fondo_menu.png"),
 }
 
 for nombre_img,img_superficie in IMAGENES.items():
-    IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
+     print("bomba" in nombre_img)
+     if "bloque" in nombre_img or "bomba" in nombre_img or "bandera" in nombre_img or nombre_img.isdigit():
+        IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 
 
 def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero, alto_tablero):

@@ -1,7 +1,7 @@
 import pygame
 from . import configuraciones
-from funciones.menu import *
-
+from .menu import *
+from .puntajes import *
 
 BOTONES = []
 
@@ -44,7 +44,7 @@ def ejecutar_funcion(indice, estado_juego):
     elif indice == 1:
         configuraciones.cambiar_dificultad()
     elif indice == 2:
-        ver_puntajes()
+        ver_puntajes(estado_juego)
     elif indice == 3:
         configuraciones.cambiar_resolucion()
     elif indice == 4:
@@ -59,8 +59,9 @@ def jugar(estado_juego):
 
 
 
-def ver_puntajes():
+def ver_puntajes(estado_juego):
     print("PUNTAJES")
+    configuraciones.set_pantalla_actual("puntaje")
 
 def salir():
     pygame.quit()
