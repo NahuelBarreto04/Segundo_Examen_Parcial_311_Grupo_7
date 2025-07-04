@@ -81,7 +81,7 @@ def menu_interaccion():
                     if fila != -1 and col != -1:
                         if evento.button == 1:  # Click izquierdo
                             if estado_juego["minas_generadas"] == False:
-                                generar_minas(estado_juego["tablero"], estado_juego["minas"], fila, col, estado_juego)
+                                generar_minas(estado_juego["tablero"], estado_juego["minas"], fila, col)
                                 estado_juego["minas_generadas"] = True
                                 calcular_numeros(estado_juego["tablero"])
 
