@@ -92,6 +92,7 @@ def dibujar_juego(pantalla, evento, estado_juego):
 
         pantalla.blit(sombra, (x + 3, y + 3))  # sombra
         pantalla.blit(texto, (x, y))
+        
     # Mostrar puntaje
         fuente_puntaje = pygame.font.SysFont("arial", 28, bold=True)
         puntaje = estado_juego.get("puntaje", 0)
@@ -122,7 +123,6 @@ def dibujar_juego(pantalla, evento, estado_juego):
     if dibujar_boton_volver(pantalla, evento):
         configuraciones.set_pantalla_actual("menu")
         estado_juego["juego_iniciado"] = False
-
 
     pygame.display.flip()
 

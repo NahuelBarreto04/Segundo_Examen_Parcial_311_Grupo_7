@@ -8,7 +8,9 @@ TAM_CELDA = 40
 MARGEN = 1
 
 SONIDOS = {
-    "musica_fondo": "sonidos/musica_menu.mp3"
+    "musica_menu": "sonidos/musica_menu.mp3",
+    "musica_puntajes":"sonidos/musica_puntajes.mp3",
+    "sonido_derrota": "sonidos/derrota.mp3"
 }
 
 IMAGENES = {
