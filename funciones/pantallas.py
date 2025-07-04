@@ -10,6 +10,7 @@ MAX_ALTO_TABLERO = 500
 
 def iniciar_juego(pantalla, estado_juego):
     #Estado del Juego
+    estado_juego["gano"] = False
     estado_juego["juego_iniciado"] = True
     estado_juego["inicio_timer"] = pygame.time.get_ticks()
 
@@ -53,7 +54,6 @@ def iniciar_juego(pantalla, estado_juego):
     estado_juego["banderas_puestas"] = 0
 
 def dibujar_juego(pantalla, evento, estado_juego):
-    
     pantalla.fill((0, 0, 0))
     fuente = pygame.font.SysFont("arial", 20)
     texto = fuente.render("Dificultad: " + configuraciones.get_dificultad_actual().upper(), True, (255, 255, 255))
@@ -66,15 +66,28 @@ def dibujar_juego(pantalla, evento, estado_juego):
         desc = "tablero 16x16 con 50 minas"
     else:
         desc = "tablero 24x24 con 120 minas"
-
     texto2 = fuente2.render(desc, True, (200, 200, 200))
     pantalla.blit(texto2, (20, 50))
 
-    dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES, estado_juego["perdio"])
     dibujar_timer(pantalla, estado_juego)
     dibujar_contador_banderas(pantalla, estado_juego)
+    dibujar_tablero(pantalla, estado_juego["tablero"], IMAGENES, estado_juego["perdio"])
 
-    # EL BOTON SIEMPRE SE DIBUJA
+    # ⬇ ACA pega el bloque nuevo para GANASTE
+    if estado_juego.get("gano"):
+        fuente = pygame.font.SysFont("arial", 60, bold=True)
+        texto = fuente.render("GANASTE!", True, (0, 255, 0))
+        sombra = fuente.render("GANASTE!", True, (0, 0, 0))
+
+        x = (pantalla.get_width() - texto.get_width()) // 2
+        y = pantalla.get_height() // 2 - texto.get_height() // 2
+
+        fondo_rect = pygame.Rect(x - 20, y - 20, texto.get_width() + 40, texto.get_height() + 40)
+        pygame.draw.rect(pantalla, (20, 20, 20), fondo_rect, border_radius=15)
+
+        pantalla.blit(sombra, (x + 3, y + 3))
+        pantalla.blit(texto, (x, y))
+
     if dibujar_boton_volver(pantalla, evento):
         configuraciones.set_pantalla_actual("menu")
         estado_juego["juego_iniciado"] = False
@@ -83,10 +96,12 @@ def dibujar_juego(pantalla, evento, estado_juego):
 
 
 
+
+
 def dibujar_timer(pantalla, estado_juego):
     fuente = pygame.font.SysFont("arial", 30)
-    
-    if estado_juego.get("perdio"):
+
+    if estado_juego.get("perdio") or estado_juego.get("gano"):
         segundos = estado_juego.get("tiempo_final", 0)
     else:
         ahora = pygame.time.get_ticks()
@@ -96,6 +111,7 @@ def dibujar_timer(pantalla, estado_juego):
     x = pantalla.get_width() - texto.get_width() - 20
     y = 20
     pantalla.blit(texto, (x, y))
+
 
 def dibujar_contador_banderas(pantalla, estado_juego):
     fuente = pygame.font.SysFont("arial", 30)

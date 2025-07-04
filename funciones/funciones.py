@@ -134,7 +134,14 @@ def revelar_celda(estado_juego, fila, columna):
 
 
 
-    
+def verificar_ganador(estado_juego):
+    tablero = estado_juego["tablero"]
+    for fila in tablero:
+        for celda in fila:
+            if celda["valor"] != "bomba" and celda["estado"] == False:
+                return False
+    return True
+
 
 
 

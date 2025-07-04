@@ -48,33 +48,36 @@ def menu_interaccion():
                 estado_juego["minas_generadas"] = False
 
             if evento and evento.type == pygame.MOUSEBUTTONDOWN:
-                fila, col = obtener_fila_columna(evento.pos, estado_juego["tablero"])
-                print(fila, col)
+                if estado_juego["perdio"] == False and estado_juego.get("gano") == False:
+                    fila, col = obtener_fila_columna(evento.pos, estado_juego["tablero"])
+                    print(fila, col)
 
-                if fila != -1 and col != -1:
-                    if evento.button == 1:  # Click izquierdo
-                        if estado_juego["minas_generadas"] == False:
-                            generar_minas(estado_juego["tablero"], estado_juego["minas"], fila, col, estado_juego)
-                            estado_juego["minas_generadas"] = True
-                            calcular_numeros(estado_juego["tablero"])
+                    if fila != -1 and col != -1:
+                        if evento.button == 1:  # Click izquierdo
+                            if estado_juego["minas_generadas"] == False:
+                                generar_minas(estado_juego["tablero"], estado_juego["minas"], fila, col, estado_juego)
+                                estado_juego["minas_generadas"] = True
+                                calcular_numeros(estado_juego["tablero"])
 
-                        if estado_juego["perdio"] == False:
-                            resultado = revelar_celda(estado_juego, fila, col)
-                            if resultado == "perdiste":
-                                estado_juego["perdio"] = True
-                                estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
+                            if estado_juego["perdio"] == False:
+                                resultado = revelar_celda(estado_juego, fila, col)
+                                if resultado == "perdiste":
+                                    estado_juego["perdio"] = True
+                                    estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
+                                else:
+                                    if verificar_ganador(estado_juego):
+                                        estado_juego["gano"] = True
+                                        estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
 
-                    elif evento.button == 3:  # Click derecho
-                        celda = estado_juego["tablero"][fila][col]
-                        if celda.get("bandera") == True:
-                            celda["bandera"] = False
-                            estado_juego["banderas_puestas"] = estado_juego["banderas_puestas"] - 1
-                        else:
-                            if estado_juego["banderas_puestas"] < estado_juego["minas"]:
-                                celda["bandera"] = True
-                                estado_juego["banderas_puestas"] = estado_juego["banderas_puestas"] + 1
-
-
+                        elif evento.button == 3:  # Click derecho
+                            celda = estado_juego["tablero"][fila][col]
+                            if celda.get("bandera") == True:
+                                celda["bandera"] = False
+                                estado_juego["banderas_puestas"] -= 1
+                            else:
+                                if estado_juego["banderas_puestas"] < estado_juego["minas"]:
+                                    celda["bandera"] = True
+                                    estado_juego["banderas_puestas"] += 1
 
             dibujar_juego(configuraciones.get_pantalla_pygame(), evento, estado_juego)
 
