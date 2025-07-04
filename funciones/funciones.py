@@ -39,29 +39,25 @@ def obtener_fila_columna(pos, tablero):
                 return f, c
     return -1, -1
 
-def generar_minas(tablero: list, minas: int, fila_click: int, columna_click: int, estado_juego:dict):
-    estado_juego["primera_celda"] = False
+def generar_minas(tablero, minas, fila_click, columna_click, estado_juego):
     cant_minas = minas
-    primer_fila = 0
-    primer_columna = 0
+    primera_vez = True
 
     while cant_minas > 0:
-        fila = randint(0, len(tablero)- 1)
-        columna = randint(0, len(tablero[0])- 1)
-        if estado_juego["primera_celda"] == False:
-            # print(primer_fila, primer_columna, "test")
-            primer_fila = fila_click
-            primer_columna = columna_click
-            estado_juego["primera_celda"] = True
-            continue
+        fila = randint(0, len(tablero) - 1)
+        columna = randint(0, len(tablero[0]) - 1)
 
-        if fila == primer_fila and columna == primer_columna:
-            continue
+        if primera_vez == True:
+            primera_vez = False
+        else:
+            # Solo si está fuera del area 3x3 alrededor del click
+            if fila < fila_click - 1 or fila > fila_click + 1 or columna < columna_click - 1 or columna > columna_click + 1:
+                if tablero[fila][columna]["valor"] == "bloque-vacio":
+                    tablero[fila][columna]["valor"] = "bomba"
+                    tablero[fila][columna]["estado"] = False
+                    cant_minas -= 1
 
-        if tablero[fila][columna]["valor"] == "bloque-vacio":
-            tablero[fila][columna]["valor"] = "bomba"
-            tablero[fila][columna]["estado"] = False
-            cant_minas -= 1
+
 
 
 
