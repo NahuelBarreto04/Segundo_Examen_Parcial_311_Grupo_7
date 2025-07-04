@@ -110,31 +110,11 @@ def dibujar_juego(pantalla, evento, estado_juego):
         configuraciones.set_pantalla_actual("menu")
         estado_juego["juego_iniciado"] = False
 
-    if dibujar_boton_reiniciar(pantalla, evento):
-        estado_juego.clear()
-        estado_juego["juego_iniciado"] = False
-        estado_juego["perdio"] = False
-
 
     pygame.display.flip()
 
 
-def dibujar_boton_reiniciar(pantalla, evento):
-    fuente = pygame.font.SysFont("arial", 25)
-    texto = fuente.render("reiniciar", True, (255, 255, 255))
-    ancho = texto.get_width() + 20
-    alto = texto.get_height() + 10
-    x = pantalla.get_width() - ancho - 20
-    y = pantalla.get_height() - alto - 10
-    rect_reiniciar = pygame.Rect(x, y, ancho, alto)
 
-    pygame.draw.rect(pantalla, (80, 80, 80), rect_reiniciar)
-    pantalla.blit(texto, (x + 10, y + 5))
-
-    if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
-        if rect_reiniciar.collidepoint(evento.pos):
-            return True
-    return False
 
 
 
