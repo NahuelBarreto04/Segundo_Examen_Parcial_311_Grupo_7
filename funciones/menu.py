@@ -79,7 +79,6 @@ def jugar(estado_juego):
 
 
 def ver_puntajes(estado_juego):
-    print("PUNTAJES")
     configuraciones.set_pantalla_actual("puntaje")
 
 def salir():
