@@ -22,11 +22,17 @@ IMAGENES = {
     "5": pygame.image.load("imagenes/5.png"),
     "6": pygame.image.load("imagenes/6.png"),
     "7": pygame.image.load("imagenes/7.png"),
-    "8": pygame.image.load("imagenes/8.png")
+    "8": pygame.image.load("imagenes/8.png"),
+    "fondo": pygame.image.load("imagenes/fondo.jpg"),
+
+
 }
 
-for nombre_img,img_superficie in IMAGENES.items():
-    IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
+for nombre_img in IMAGENES:
+    if nombre_img != "fondo":  # solo escala todas menos el fondo
+        img_superficie = IMAGENES[nombre_img]
+        IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
+
 
 
 def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero, alto_tablero):

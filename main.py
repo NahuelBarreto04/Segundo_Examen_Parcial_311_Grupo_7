@@ -16,12 +16,17 @@ estado_juego = {
     "juego_iniciado": False,
     "perdio": False
 }
+from funciones.utilidad import IMAGENES
+
 def pantalla_menu():
     pantalla = configuraciones.get_pantalla_pygame()
-    pantalla.fill(COLOR_FONDO)
+    imagen_fondo = pygame.transform.scale(IMAGENES["fondo"], (pantalla.get_width(), pantalla.get_height()))
+    pantalla.blit(imagen_fondo, (0, 0))
     mostrar_textos(pantalla)
     dibujar_botones(pantalla)
     pygame.display.flip()
+
+
 
 
 #FUNCION PRINCIPAL
