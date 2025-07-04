@@ -31,9 +31,17 @@ def pantalla_menu():
     pantalla.fill(COLOR_FONDO)
     # fondo = pygame.transform.scale(IMAGENES["fondo_menu"], pantalla.get_size())
     # pantalla.blit(fondo, (0, 0))
+from funciones.utilidad import IMAGENES
+
+def pantalla_menu():
+    pantalla = configuraciones.get_pantalla_pygame()
+    imagen_fondo = pygame.transform.scale(IMAGENES["fondo"], (pantalla.get_width(), pantalla.get_height()))
+    pantalla.blit(imagen_fondo, (0, 0))
     mostrar_textos(pantalla)
     dibujar_botones(pantalla)
     pygame.display.flip()
+
+
 
 
 #FUNCION PRINCIPAL
@@ -89,7 +97,6 @@ def menu_interaccion():
                                         estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
 
                         elif evento.button == 3:  # Click derecho
-                            print(estado_juego["tablero"])
                             celda = estado_juego["tablero"][fila][col]
 
     # SOLO si la celda NO esta revelada

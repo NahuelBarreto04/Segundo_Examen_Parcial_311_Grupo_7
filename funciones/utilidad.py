@@ -30,12 +30,21 @@ IMAGENES = {
     "cara2": pygame.image.load("imagenes/cara2.png"),
     "fondo_puntajes": pygame.image.load("imagenes/fondos/fondo_puntajes.jpg"),
     # "fondo_menu": pygame.image.load("imagenes/fondos/fondo_menu.png"),
+    "8": pygame.image.load("imagenes/8.png"),
+    "fondo": pygame.image.load("imagenes/fondo.jpg"),
+
+
 }
 
 for nombre_img,img_superficie in IMAGENES.items():
      print("bomba" in nombre_img)
      if "bloque" in nombre_img or "bomba" in nombre_img or "bandera" in nombre_img or nombre_img.isdigit():
         IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
+for nombre_img in IMAGENES:
+    if nombre_img != "fondo":  # solo escala todas menos el fondo
+        img_superficie = IMAGENES[nombre_img]
+        IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
+
 
 
 def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero, alto_tablero):
