@@ -109,32 +109,29 @@ def revelar_celda(estado_juego, fila, columna):
 
     celda = tablero[fila][columna]
 
+    # No revelar si ya tiene bandera
+    if celda.get("bandera") == True:
+        return None
+
     if celda["estado"] == True:
         return None
 
-    # 3. Si es una BOMBA
     if celda["valor"] == "bomba":
-        celda["valor"] = "bomba_explosion" # Cambiamos a la imagen de explosión
-        celda["estado"] = True            # La marcamos como revelada
-        return "perdiste"                 # Indicamos que el juego ha terminado
+        celda["valor"] = "bomba_explosion"
+        celda["estado"] = True
+        return "perdiste"
 
-    # 4. Si no es una bomba y no está revelada:
-    celda["estado"] = True 
+    celda["estado"] = True
 
-    #si la celda revelada es '0' (vacía)
-    # revela sus 8 vecinos.
     if celda["valor"] == "0":
         for df in [-1, 0, 1]:
             for dc in [-1, 0, 1]:
                 if df == 0 and dc == 0:
-                    continue #Salta la celda actual
-
-                # Llamada recursiva para revelar los vecinos
-                # La recursión continuará solo si los vecinos también son '0'
+                    continue
                 revelar_celda(estado_juego, fila + df, columna + dc)
-    
 
     return None
+
 
 
     

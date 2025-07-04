@@ -44,17 +44,19 @@ def dibujar_tablero(pantalla, tablero, imagenes, juego_perdido):
     for fila in tablero:
         for celda in fila:
             if celda["rect"]:
-                imagen_celda = ""
-                if celda["estado"] == True:
-                    imagen_celda = celda["valor"]
+                if celda.get("bandera") == True:
+                    imagen_celda = "bandera"
                 else:
-                    if juego_perdido and celda["valor"] == "bomba":
-                        imagen_celda = "bomba" # Mostrar bombas cuando se pierde
+                    if celda["estado"] == True:
+                        imagen_celda = celda["valor"]
                     else:
-                        imagen_celda = "bloque-vacio" # De lo contrario, es un bloque oculto
+                        if juego_perdido and celda["valor"] == "bomba":
+                            imagen_celda = "bomba"  # Mostrar bombas cuando se pierde
+                        else:
+                            imagen_celda = "bloque-vacio"  # Bloque oculto
                 imagen = pygame.transform.scale(imagenes[imagen_celda], (celda["rect"].width, celda["rect"].height))
                 pantalla.blit(imagen, celda["rect"])
-          
+
 
 
             
