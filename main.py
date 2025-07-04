@@ -71,13 +71,17 @@ def menu_interaccion():
 
                         elif evento.button == 3:  # Click derecho
                             celda = estado_juego["tablero"][fila][col]
-                            if celda.get("bandera") == True:
-                                celda["bandera"] = False
-                                estado_juego["banderas_puestas"] -= 1
-                            else:
-                                if estado_juego["banderas_puestas"] < estado_juego["minas"]:
-                                    celda["bandera"] = True
-                                    estado_juego["banderas_puestas"] += 1
+
+    # SOLO si la celda NO esta revelada
+                            if celda["estado"] == False:
+                                if celda.get("bandera") == True:
+                                    celda["bandera"] = False
+                                    estado_juego["banderas_puestas"] -= 1
+                                else:
+                                    if estado_juego["banderas_puestas"] < estado_juego["minas"]:
+                                        celda["bandera"] = True
+                                        estado_juego["banderas_puestas"] += 1
+
 
             dibujar_juego(configuraciones.get_pantalla_pygame(), evento, estado_juego)
 
