@@ -79,18 +79,31 @@ def dibujar_juego(pantalla, evento, estado_juego):
     #Victoria
 
     if estado_juego.get("gano"):
-        fuente = pygame.font.SysFont("arial", 60, bold=True)
-        texto = fuente.render("GANASTE!", True, (0, 255, 0))
-        sombra = fuente.render("GANASTE!", True, (0, 0, 0))
+        fuente = pygame.font.SysFont("arial", 60, True)
+        texto = fuente.render("VICTORIA!", True, (0, 255, 0))  # verde pastel
+        sombra = fuente.render("VICTORIA!", True, (0, 0, 0))  # sombra negra
 
         x = (pantalla.get_width() - texto.get_width()) // 2
         y = pantalla.get_height() // 2 - texto.get_height() // 2
 
+    # Fondo rectangulo 
         fondo_rect = pygame.Rect(x - 20, y - 20, texto.get_width() + 40, texto.get_height() + 40)
         pygame.draw.rect(pantalla, (20, 20, 20), fondo_rect, border_radius=15)
 
-        pantalla.blit(sombra, (x + 3, y + 3))
+        pantalla.blit(sombra, (x + 3, y + 3))  # sombra
         pantalla.blit(texto, (x, y))
+    # Mostrar puntaje
+        fuente_puntaje = pygame.font.SysFont("arial", 28, bold=True)
+        puntaje = estado_juego.get("puntaje", 0)
+        texto_puntaje = fuente_puntaje.render("Puntaje: " + str(puntaje), True, (255, 215, 0))  # dorado
+        sombra_puntaje = fuente_puntaje.render("Puntaje: " + str(puntaje), True, (0, 0, 0))
+
+        px = (pantalla.get_width() - texto_puntaje.get_width()) // 2
+        py = y + texto.get_height() + 20
+
+        pantalla.blit(sombra_puntaje, (px + 2, py + 2))
+        pantalla.blit(texto_puntaje, (px, py))
+
 
     if estado_juego.get("perdio"):
         fuente = pygame.font.SysFont("arial", 60, bold=True)
@@ -110,31 +123,11 @@ def dibujar_juego(pantalla, evento, estado_juego):
         configuraciones.set_pantalla_actual("menu")
         estado_juego["juego_iniciado"] = False
 
-    if dibujar_boton_reiniciar(pantalla, evento):
-        estado_juego.clear()
-        estado_juego["juego_iniciado"] = False
-        estado_juego["perdio"] = False
-
 
     pygame.display.flip()
 
 
-def dibujar_boton_reiniciar(pantalla, evento):
-    fuente = pygame.font.SysFont("arial", 25)
-    texto = fuente.render("reiniciar", True, (255, 255, 255))
-    ancho = texto.get_width() + 20
-    alto = texto.get_height() + 10
-    x = pantalla.get_width() - ancho - 20
-    y = pantalla.get_height() - alto - 10
-    rect_reiniciar = pygame.Rect(x, y, ancho, alto)
 
-    pygame.draw.rect(pantalla, (80, 80, 80), rect_reiniciar)
-    pantalla.blit(texto, (x + 10, y + 5))
-
-    if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
-        if rect_reiniciar.collidepoint(evento.pos):
-            return True
-    return False
 
 
 
