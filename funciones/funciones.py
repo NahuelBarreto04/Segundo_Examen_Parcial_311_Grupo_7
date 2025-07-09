@@ -164,6 +164,9 @@ def calcular_puntaje(dificultad:str, tiempo:int) -> int:
     return puntaje
 
 def reproducir_musica(nombre_musica: str,estado_jugo: dict) -> None:
+
+
+
     if(nombre_musica == "No"):
         estado_jugo["musica_actual"] = "No"
         pygame.mixer.music.stop()
@@ -173,3 +176,13 @@ def reproducir_musica(nombre_musica: str,estado_jugo: dict) -> None:
         pygame.mixer.music.play(-1) 
         pygame.mixer.music.set_volume(0.5)
         estado_jugo["musica_actual"] = nombre_musica
+
+def reproducir_sonido(nombre_sonido: str) -> None:
+    """
+    reproduce un sonido segun el nombre que le pases del diccionario SONIDOS.
+    No devuelve nada, solo ejecuta el sonido.
+    """
+    sonido = pygame.mixer.Sound(SONIDOS[nombre_sonido])
+    sonido.play()
+
+

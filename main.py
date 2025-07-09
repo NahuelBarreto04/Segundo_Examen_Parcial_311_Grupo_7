@@ -90,6 +90,9 @@ def menu_interaccion():
                                 if resultado == "perdiste":
                                     estado_juego["perdio"] = True
                                     estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
+                                    pygame.mixer.music.stop()
+                                    reproducir_sonido("sonido_derrota")
+
                                 else:
                                     if verificar_ganador(estado_juego):
                                         estado_juego["gano"] = True
