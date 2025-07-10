@@ -10,7 +10,8 @@ MARGEN = 1
 SONIDOS = {
     "musica_menu": "sonidos/musica_menu.mp3",
     "musica_puntajes":"sonidos/musica_puntajes.mp3",
-    "sonido_derrota": "sonidos/derrota.mp3"
+    "sonido_derrota": "sonidos/derrota.mp3",
+    "sonido_victoria":"sonidos/victoria.mp3"
 }
 
 IMAGENES = {

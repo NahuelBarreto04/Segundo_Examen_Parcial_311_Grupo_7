@@ -179,7 +179,7 @@ def reproducir_musica(nombre_musica: str,estado_jugo: dict) -> None:
 
 def reproducir_sonido(nombre_sonido: str) -> None:
     """
-    reproduce un sonido segun el nombre que le pases del diccionario SONIDOS.
+    reproduce un sonido segun el nombre que le pase del diccionario SONIDOS.
     No devuelve nada, solo ejecuta el sonido.
     """
     sonido = pygame.mixer.Sound(SONIDOS[nombre_sonido])

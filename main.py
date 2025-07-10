@@ -98,6 +98,8 @@ def menu_interaccion():
                                         estado_juego["gano"] = True
                                         estado_juego["tiempo_final"] = (pygame.time.get_ticks() - estado_juego["inicio_timer"]) // 1000
                                         dificultad = configuraciones.get_dificultad_actual()
+                                        pygame.mixer.music.stop()
+                                        reproducir_sonido("sonido_victoria")
                                         tiempo = estado_juego["tiempo_final"]
                                         estado_juego["puntaje"] = calcular_puntaje(dificultad, tiempo)
                         elif evento.button == 3:  # Click derecho

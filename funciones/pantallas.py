@@ -134,18 +134,38 @@ def dibujar_juego(pantalla, evento, estado_juego):
 
 
 def dibujar_timer(pantalla, estado_juego):
+    """
+    Dibuja el tiempo transcurrido en pantalla en formato mm:ss.
+    Recibe la pantalla de pygame y el estado del juego.
+    No devuelve nada.
+    """
     fuente = pygame.font.SysFont("arial", 30)
 
     if estado_juego.get("perdio") or estado_juego.get("gano"):
-        segundos = estado_juego.get("tiempo_final", 0)
+        total_segundos = estado_juego.get("tiempo_final", 0)
     else:
         ahora = pygame.time.get_ticks()
-        segundos = (ahora - estado_juego["inicio_timer"]) // 1000
+        total_segundos = (ahora - estado_juego["inicio_timer"]) // 1000
 
-    texto = fuente.render("tiempo: " + str(segundos) + "s", True, (255, 255, 255))
-    x = pantalla.get_width() - texto.get_width() - 20
+    minutos = total_segundos // 60
+    segundos = total_segundos % 60
+
+    texto = "Tiempo: "
+    if minutos < 10:
+        texto += "0" + str(minutos)
+    else:
+        texto += str(minutos)
+    texto += ":"
+    if segundos < 10:
+        texto += "0" + str(segundos)
+    else:
+        texto += str(segundos)
+
+    texto_render = fuente.render(texto, True, (255, 255, 255))
+    x = pantalla.get_width() - texto_render.get_width() - 20
     y = 20
-    pantalla.blit(texto, (x, y))
+    pantalla.blit(texto_render, (x, y))
+
 
 
 def dibujar_contador_banderas(pantalla, estado_juego):
