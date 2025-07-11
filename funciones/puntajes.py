@@ -64,7 +64,6 @@ def guardar_puntaje(nombre_jugador, puntaje) -> None:
     puntajes = puntajes[:10]
     
     with open(ARCHIVO_PUNTAJES, "w", encoding="utf-8") as archivo:
-        # archivo.write("nombre,puntaje\n")  # Escribir encabezados
         for jugador in puntajes:
             archivo.write(f"{jugador[0]},{jugador[1]} \n")
 
@@ -92,7 +91,6 @@ def cargar_puntajes() -> list:
     puntajes = []
     with open(ARCHIVO_PUNTAJES, "r", encoding="utf-8") as archivo:
         lineas = archivo.readlines()
-        print(lineas)
         if len(lineas) < 1:
             return puntajes
         

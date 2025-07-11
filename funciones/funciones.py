@@ -77,7 +77,7 @@ def generar_minas(tablero:list, minas:int, fila_click: int, columna_click:int) -
             if fila < fila_click - 1 or fila > fila_click + 1 or columna < columna_click - 1 or columna > columna_click + 1:
                 if tablero[fila][columna]["valor"] == "bloque-vacio":
                     tablero[fila][columna]["valor"] = "bomba"
-                    tablero[fila][columna]["estado"] = True
+                    tablero[fila][columna]["estado"] = False
                     cant_minas -= 1
 
 
