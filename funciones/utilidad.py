@@ -40,7 +40,7 @@ IMAGENES = {
 }
 
 for nombre_img,img_superficie in IMAGENES.items():
-     if "bloque" in nombre_img or "bomba" in nombre_img or "bandera" in nombre_img or nombre_img.isdigit():
+    if "bloque" in nombre_img or "bomba" in nombre_img or "bandera" in nombre_img or nombre_img.isdigit():
         IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 for nombre_img in IMAGENES:
     if nombre_img != "fondo":  # solo escala todas menos el fondo

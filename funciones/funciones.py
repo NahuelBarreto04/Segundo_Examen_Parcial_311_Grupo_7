@@ -135,6 +135,16 @@ def revelar_celda(estado_juego, fila, columna) -> bool:
 
 
 def verificar_ganador(estado_juego:dict) -> bool:
+    """
+    verifica si el usuario gano el juego
+    recorre todas las celdas del tablero y si
+
+    -encuentra una celda vacia que no es bomba y que no fue revelada,
+    retorna false
+
+    -si todas las celdas sin bombas fueron reveladas,
+    retorna true
+    """
     tablero = estado_juego["tablero"]
     for fila in tablero:
         for celda in fila:
@@ -142,21 +152,28 @@ def verificar_ganador(estado_juego:dict) -> bool:
                 return False
     return True
 
-
-
-def resetear_juego(estado_juego:dict):
+def resetear_juego(estado_juego:dict)-> None:
+    """
+    reinicia el estado del juego
+    """
     estado_juego["juego_iniciado"] = False
     estado_juego["perdio"] = False
     estado_juego["minas_generadas"] = False
 
-
 def calcular_puntaje(dificultad:str, tiempo:int) -> int:
+    """
+    calcula el puntaje dependiendo la dificultad
+
+    -por cada segundo resta 10 puntos
+    -el puntaje no puede ser menor a 0
+    -retorna puntaje
+    """
     if dificultad == "facil":
         base = 1000
     elif dificultad == "normal":
-        base = 2000
+        base = 5000
     else:
-        base = 3000
+        base = 10000
 
     puntaje = base - tiempo * 10
     if puntaje < 0:
@@ -164,9 +181,14 @@ def calcular_puntaje(dificultad:str, tiempo:int) -> int:
     return puntaje
 
 def reproducir_musica(nombre_musica: str,estado_jugo: dict) -> None:
+    """
+    reproduce la musica segun el nombre indicado
 
-
-
+    -Si el nombre es "No", la musica se detiene
+    -Si la musica actual es distinta, se carga y se reproduce la nueva
+    -guarda el nombre de la musica actual en el diccionario del estado
+    -ajusta el  volumen a 0.5
+    """
     if(nombre_musica == "No"):
         estado_jugo["musica_actual"] = "No"
         pygame.mixer.music.stop()
@@ -179,8 +201,9 @@ def reproducir_musica(nombre_musica: str,estado_jugo: dict) -> None:
 
 def reproducir_sonido(nombre_sonido: str) -> None:
     """
-    reproduce un sonido segun el nombre que le pase del diccionario SONIDOS.
-    No devuelve nada, solo ejecuta el sonido.
+    reproduce un sonido segun el nombre recibido
+    lo busca desde el diccionario de sonidos 
+    lo carga como sonido y lo reproduce 1 vez
     """
     sonido = pygame.mixer.Sound(SONIDOS[nombre_sonido])
     sonido.play()
