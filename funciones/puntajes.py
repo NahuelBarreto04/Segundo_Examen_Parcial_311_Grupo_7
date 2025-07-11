@@ -92,8 +92,10 @@ def cargar_puntajes() -> list:
     puntajes = []
     with open(ARCHIVO_PUNTAJES, "r", encoding="utf-8") as archivo:
         lineas = archivo.readlines()
+        print(lineas)
         if len(lineas) < 1:
             return puntajes
+        
         for linea in lineas:
             linea = linea.strip()
             valores = linea.split(",")
