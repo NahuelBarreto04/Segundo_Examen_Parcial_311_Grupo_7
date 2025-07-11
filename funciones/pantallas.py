@@ -8,7 +8,14 @@ MAX_AREA = 600
 MAX_ANCHO_TABLERO = 500
 MAX_ALTO_TABLERO = 500
 
-def iniciar_juego(pantalla, estado_juego):
+def iniciar_juego(pantalla:pygame, estado_juego:dict)-> None:
+    """
+    empieza una nueva partida
+
+    decide el tamaño del tablero y las minas segun la dificultad elegida
+    crea un tablero vacio
+    guarda todo en el estado de juego
+    """
     #Estado del Juego
     estado_juego["gano"] = False
     estado_juego["juego_iniciado"] = True
@@ -56,7 +63,17 @@ def iniciar_juego(pantalla, estado_juego):
 
 
 
-def dibujar_juego(pantalla, evento, estado_juego):
+def dibujar_juego(pantalla:pygame, evento:pygame, estado_juego:dict)->None:
+    """
+    muestra todos los elementos que se ven durante la partida
+
+    -muestra la dificultad y tipo de tablero
+    -dibuja el timer,cantidad de banderas, y el tablero
+    -boton de reinicio y detecta si es pulsado
+    -si gana o pierde, muestra su debido cartel y puntaje
+    -boton volver al menu
+    """
+
     pantalla.fill((0, 0, 0))
     fuente = pygame.font.SysFont("arial", 20)
     texto = fuente.render("Dificultad: " + configuraciones.get_dificultad_actual().upper(), True, (255, 255, 255))
@@ -136,9 +153,9 @@ def dibujar_juego(pantalla, evento, estado_juego):
 
 
 
-def dibujar_timer(pantalla, estado_juego):
+def dibujar_timer(pantalla:pygame, estado_juego:dict)-> None:
     """
-    Dibuja el tiempo transcurrido en pantalla en formato mm:ss.
+    Dibuja el tiempo transcurrido en pantalla en formato mm:ss(minutos,segundos).
     Recibe la pantalla de pygame y el estado del juego.
     No devuelve nada.
     """
@@ -171,7 +188,10 @@ def dibujar_timer(pantalla, estado_juego):
 
 
 
-def dibujar_contador_banderas(pantalla, estado_juego):
+def dibujar_contador_banderas(pantalla:pygame, estado_juego:dict)-> None:
+    """
+    muestra la cantidad de banderas puestas 
+    """
     fuente = pygame.font.SysFont("arial", 30)
     banderas = estado_juego.get("banderas_puestas", 0)
     max_banderas = estado_juego.get("minas", 0)
@@ -183,7 +203,11 @@ def dibujar_contador_banderas(pantalla, estado_juego):
 
 
 #BOTON REINICIO
-def dibujar_boton_reinicio(pantalla, imagenes):
+def dibujar_boton_reinicio(pantalla:pygame, imagenes:dict)-> pygame.Rect:
+    """
+    dibuja el boton de reinicio 
+    retorna el rectangulo para luego detectar los click
+    """
     ancho_boton = 60
     alto_boton = 60
     x = pantalla.get_width() // 2 - ancho_boton // 2
@@ -197,7 +221,12 @@ def dibujar_boton_reinicio(pantalla, imagenes):
     return rect_reinicio
 
 
-def controlar_boton_reinicio(evento, rect_reinicio, estado_juego):
+def controlar_boton_reinicio(evento:pygame, rect_reinicio:pygame, estado_juego:dict)-> bool:
+    """
+    detecta si el jugador toca el boton de reinicio
+    retorna true si el juego es reiniciado
+    false si no pasa nada
+    """
     if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
         if rect_reinicio.collidepoint(evento.pos):
             resetear_juego(estado_juego)
@@ -207,9 +236,9 @@ def controlar_boton_reinicio(evento, rect_reinicio, estado_juego):
 
 
 #pedir nombres
-def pedir_nombres(pantalla) -> str:
+def pedir_nombres(pantalla:pygame) -> str:
     """
-    Muestra en pantalla un input para que el usuario ingrese 3 letras.
+    Muestra en pantalla un input para que el usuario ingrese 5 letras.
     Solo permite letras, y el texto se escribe en mayúsculas.
     Devuelve el nombre ingresado como str.
     """
@@ -238,7 +267,7 @@ def pedir_nombres(pantalla) -> str:
                         nombre += letra
 
         pantalla.fill((0, 0, 0))
-        texto = fuente.render("Ingrese su nombre (3 letras): " + nombre, True, (255, 255, 255))
+        texto = fuente.render("Ingrese su nombre (5 letras maximo): " + nombre, True, (255, 255, 255))
         x = (pantalla.get_width() - texto.get_width()) // 2
         y = pantalla.get_height() // 2
         pantalla.blit(texto, (x, y))

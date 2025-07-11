@@ -12,6 +12,11 @@ CELDA = {
 
 
 def generar_tablero(filas:int, columnas:int, valor:any) -> list:
+    """
+    genera un tablero como una matriz de celdas
+    crea una lista con la cantidad de filas y columnas
+    devuelve el tablero generado
+    """
     tablero = []
     for i in range(filas):
         fila = []
@@ -23,6 +28,11 @@ def generar_tablero(filas:int, columnas:int, valor:any) -> list:
 
 
 def mostrar_tablero(tablero:list) -> None:
+    """
+    muestra por consola los valores del tablero
+    recorre cada fila y columna de este 
+    y muestra el valor de cada celda
+    """
     for i in range(len(tablero)):
         for j in range(len(tablero[i])):
             print(tablero[i][j]["valor"], end=" ")
@@ -97,7 +107,17 @@ def calcular_numeros(tablero:list) -> None:
 
 
 
-def revelar_celda(estado_juego, fila, columna) -> bool:
+def revelar_celda(estado_juego:dict, fila:int, columna:int) -> str|None:
+    """
+    revela una celda del tablero 
+    -si la celda esta fuera del tablero no hace nada
+    -si ya fue revela o tiene una bandera no hace nada
+    -si es una bomba,marca que exploto y devuelve "perdiste"
+    -si es una celda vacia ("0"), revela tmb sus celdas vecinas
+    
+    si releva una bomba devuelve "perdiste"
+    en los otros casos, no devuelve none
+    """
     tablero = estado_juego["tablero"]
     
     if not (0 <= fila < len(tablero) and 0 <= columna < len(tablero[0])):
@@ -168,7 +188,7 @@ def calcular_puntaje(dificultad:str, tiempo:int) -> int:
         base = 1000
     elif dificultad == "normal":
         base = 5000
-    else:
+    else: #dificil
         base = 10000
 
     puntaje = base - tiempo * 10

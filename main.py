@@ -48,6 +48,7 @@ def pantalla_menu():
 #FUNCION PRINCIPAL
 
 def menu_interaccion():
+    
     """
     bucle principal de el jugo
     
@@ -57,6 +58,7 @@ def menu_interaccion():
     -pidce el nombre del jugador en caso de victoria
     -en juego(permite hacer click para revelar celdas o  para colocar banderas)
     -verifica si el jugador gana o pierde
+    
     """
     reloj = pygame.time.Clock()
 
