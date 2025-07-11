@@ -31,15 +31,9 @@ def mostrar_tablero(tablero:list) -> None:
 
 
 
-def obtener_fila_columna(pos, tablero:list) -> int:
-    x, y = pos
-    for f in range(len(tablero)):
-        for c in range(len(tablero[0])):
-            if tablero[f][c]["rect"].collidepoint(x, y):
-                return f, c
-    return -1, -1
 
 def generar_minas(tablero:list, minas:int, fila_click: int, columna_click:int) -> None:
+    """fncion para generar las minas en el tablero"""
     cant_minas = minas
     primera_vez = True
 
@@ -54,7 +48,7 @@ def generar_minas(tablero:list, minas:int, fila_click: int, columna_click:int) -
             if fila < fila_click - 1 or fila > fila_click + 1 or columna < columna_click - 1 or columna > columna_click + 1:
                 if tablero[fila][columna]["valor"] == "bloque-vacio":
                     tablero[fila][columna]["valor"] = "bomba"
-                    tablero[fila][columna]["estado"] = False
+                    tablero[fila][columna]["estado"] = True
                     cant_minas -= 1
 
 
@@ -63,6 +57,7 @@ def generar_minas(tablero:list, minas:int, fila_click: int, columna_click:int) -
 
 
 def obtener_fila_columna(pos, tablero:list) -> int:
+    """funcion para obtener fila y columna del click"""
     x, y = pos
     for f in range(len(tablero)):
         for c in range(len(tablero[0])):
@@ -75,6 +70,7 @@ def obtener_fila_columna(pos, tablero:list) -> int:
 
 #Calculo de numeros ad
 def calcular_numeros(tablero:list) -> None:
+    "Funcion para calcular y encontrar los numeros adyacentes"
     filas = len(tablero)
     columnas = len(tablero[0])
 
