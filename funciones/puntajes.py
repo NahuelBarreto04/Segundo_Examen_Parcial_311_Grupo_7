@@ -7,8 +7,7 @@ import os
 
 ARCHIVO_PUNTAJES = "./puntajes.csv"
 
-def pantalla_puntajes(pantalla, evento, estado_juego: dict):
-    # pantalla.fill((0, 0, 0))
+def pantalla_puntajes(pantalla:pygame, evento:pygame, estado_juego: dict):
     fondo = pygame.transform.scale(IMAGENES["fondo_puntajes"], pantalla.get_size())
     pantalla.blit(fondo, (0, 0))
 
@@ -16,6 +15,8 @@ def pantalla_puntajes(pantalla, evento, estado_juego: dict):
     texto_titulo = fuente_titulo.render("Puntajes Altos", True, (255, 255, 255))
     rect_titulo = texto_titulo.get_rect(center=(pantalla.get_width() // 2, 100))
     pantalla.blit(texto_titulo, rect_titulo)
+
+    mostrar_puntaje(pantalla)
 
 
 
@@ -50,53 +51,59 @@ def guardar_puntaje(nombre_jugador, puntaje) -> None:
     puntajes = puntajes[:10]
     
     with open(ARCHIVO_PUNTAJES, "w", encoding="utf-8") as archivo:
-        archivo.write("nombre,puntaje\n")  # Escribir encabezados
+        # archivo.write("nombre,puntaje\n")  # Escribir encabezados
         for jugador in puntajes:
-            archivo.write(f"{jugador[0]},{jugador[1]}\n")
+            archivo.write(f"{jugador[0]},{jugador[1]} \n")
 
 
 def obtener_puntaje(jugador) -> int:
     """Funcion para obtener el puntaje del jugador"""
     return jugador[1]
 
-def cargar_puntajes():
+def cargar_puntajes() -> list:
     """Cargar la lista de puntajes del archivo csv puntajes"""
     if not os.path.exists(ARCHIVO_PUNTAJES):
         return []
     
     puntajes = []
     with open(ARCHIVO_PUNTAJES, "r", encoding="utf-8") as archivo:
-        for linea in archivo:
-            valores = linea.split(",")
+        lineas = archivo.readlines()
+        if len(lineas) < 1:
+            return puntajes
+        for linea in lineas:
             linea = linea.strip()
-            
+            valores = linea.split(",")
             nombre = valores[0].strip()
             puntaje = int(valores[1])
             puntajes.append([nombre, puntaje])
-    print(puntajes)
+
     return puntajes
 
 
-def mostrar_puntaje(pantalla):
+def mostrar_puntaje(pantalla:pygame) -> None:
     """
     Funcion para mostrar jugadores y puntajes en lista en la pantalla puntajes
+    ENTRADA:
+    pantalla: pantalla pygame para mostrar datos
     """
-    print(pantalla)
     fuente_puntajes = pygame.font.SysFont("Arial", 32)
     puntajes = cargar_puntajes()
-    print(puntajes)
+    y_pos = 130
+
     for i in range(len(puntajes)):
         texto = f"{i+1}:{puntajes[i][0]}: {puntajes[i][1]}"
-        print(texto)
         render_texto = fuente_puntajes.render(texto, True,(255, 255, 255))
-        y_pos = 130
         pantalla.blit(render_texto, (pantalla.get_width()//2 - render_texto.get_width()//2, y_pos))
-        y_pos += 20
+        y_pos += 40
 
 
-def dibujar_victoria(pantalla) -> None:
+
+def dibujar_victoria(pantalla: pygame) -> None:
     """
     Funcion para dibujar el texto de victoria y puntaje en pantalla una vez que el jugador gane
+
+    ENTRADA: 
+    pantalla: pantalla pygame para mostrar
     """
     fuente = pygame.font.SysFont("arial", 60, bold=True)
     texto = fuente.render("GANASTE!", True, (0, 255, 0))
