@@ -20,8 +20,8 @@ estado_juego = {
     "musica_actual": None,
     "gano": False,
     "pedir_nombre": False,
-    "nombre_jugador": ""
-
+    "nombre_jugador": "",
+    "puntaje_mostrado": False
 }
 
 
@@ -84,7 +84,6 @@ def menu_interaccion():
         elif configuraciones.get_pantalla_actual() == "puntaje":
             reproducir_musica("musica_puntajes", estado_juego)
             pantalla_puntajes(configuraciones.get_pantalla_pygame(), evento, estado_juego)
-            mostrar_puntaje(configuraciones.get_pantalla_pygame())
 
         elif configuraciones.get_pantalla_actual() == "juego":
             reproducir_musica("No", estado_juego)
@@ -127,7 +126,7 @@ def menu_interaccion():
                         
                         elif evento.button == 3:  # Click derecho
                             celda = estado_juego["tablero"][fila][col]
-                            # SOLO si la celda NO esta revelada
+                            # si la celda no esta revelada
                             if celda["estado"] == False:
                                 if celda.get("bandera") == True:
                                     celda["bandera"] = False

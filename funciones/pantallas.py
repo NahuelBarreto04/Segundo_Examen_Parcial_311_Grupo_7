@@ -224,11 +224,11 @@ def pedir_nombres(pantalla) -> str:
                 pygame.quit()
                 exit()
             elif evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_RETURN and len(nombre) == 5:
+                if evento.key == pygame.K_RETURN and len(nombre) > 0  and len(nombre) <= 6:
                     escribiendo = False
                 elif evento.key == pygame.K_BACKSPACE:
                     nombre = nombre[:-1]
-                elif len(nombre) < 5:
+                elif len(nombre) < 6:
                     codigo = evento.key
                     if 97 <= codigo <= 122:  # a-z
                         letra = chr(codigo - 32)  # mayúscula
@@ -238,7 +238,7 @@ def pedir_nombres(pantalla) -> str:
                         nombre += letra
 
         pantalla.fill((0, 0, 0))
-        texto = fuente.render("Ingrese su nombre (3 letras): " + nombre, True, (255, 255, 255))
+        texto = fuente.render("Ingrese su nombre (max 6 letras): " + nombre, True, (255, 255, 255))
         x = (pantalla.get_width() - texto.get_width()) // 2
         y = pantalla.get_height() // 2
         pantalla.blit(texto, (x, y))

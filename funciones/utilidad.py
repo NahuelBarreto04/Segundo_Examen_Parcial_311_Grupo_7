@@ -40,16 +40,32 @@ IMAGENES = {
 }
 
 for nombre_img,img_superficie in IMAGENES.items():
+     """for para escalar las imagenes al tamaño de la celda """
      if "bloque" in nombre_img or "bomba" in nombre_img or "bandera" in nombre_img or nombre_img.isdigit():
         IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 for nombre_img in IMAGENES:
-    if nombre_img != "fondo":  # solo escala todas menos el fondo
+    if nombre_img != "fondo":
         img_superficie = IMAGENES[nombre_img]
         IMAGENES[nombre_img] = pygame.transform.scale(img_superficie,(TAM_CELDA, TAM_CELDA))
 
 
 
-def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero, alto_tablero):
+def inicializar_react_celdas(tablero: list, pantalla, margen:int, tam_celda:int, ancho_tablero: int, alto_tablero:int)-> None:
+    """Funcion inicializa el rect de las celdas y lo guarda en un key propia
+    
+    ENTRADA:
+    tablero: lista
+    pantalla: pantalla de pygame
+    margen: Int
+    tam_celda: int
+    ancho_tablero: int 
+    alto_tablero: int
+    
+    Salida:
+    sin salida, funcion de modificación
+    
+    """
+
     offset_x = (pantalla.get_width() - ancho_tablero) // 2
     offset_y = (pantalla.get_height() - alto_tablero) // 2
     for fila in range(len(tablero)):
@@ -60,7 +76,19 @@ def inicializar_react_celdas(tablero, pantalla, margen, tam_celda, ancho_tablero
 
 
 
-def dibujar_tablero(pantalla, tablero, imagenes, juego_perdido):
+def dibujar_tablero(pantalla:pygame, tablero:list, imagenes:dict, juego_perdido:bool) -> None:
+    """
+    Funcion para dibujar el tablero del juego a partir de sus celdas y valores
+
+    ENTRADA:
+    pantalla: pantalla de pygame para modificaciones con la pantalla
+    tablero: lista
+    imagenes: diccionario con la carga de imagenes
+    juego_perdido: booleano que indica si el juego esta perdido o no
+
+    Salida:
+    sin salida, funcion para mostrar con pygame
+    """
     for fila in tablero:
         for celda in fila:
             if celda["rect"]:
@@ -80,7 +108,14 @@ def dibujar_tablero(pantalla, tablero, imagenes, juego_perdido):
 
 
             
-def dibujar_boton_volver(pantalla, evento):
+def dibujar_boton_volver(pantalla:pygame, evento:pygame) -> None:
+    """
+    Funcion del boton para regresar a la pantalla anterior
+
+    ENTRADA:
+    pantalla: pantalla de pygame 
+    evento: eventos pygame para manejar el click
+    """
     fuente = pygame.font.SysFont("arial", 25)
     texto = fuente.render("volver al menu", True, (255, 255, 255))
     ancho = texto.get_width() + 20
@@ -99,9 +134,5 @@ def dibujar_boton_volver(pantalla, evento):
             return True
     return False
 
-def calcular_tamanio_celda(filas, columnas, max_ancho, max_alto, margen):
-    tam_ancho = (max_ancho - (columnas + 1) * margen) // columnas
-    tam_alto = (max_alto - (filas + 1) * margen) // filas
-    return min(tam_ancho, tam_alto)
 
 
