@@ -73,7 +73,7 @@ def menu_interaccion():
             nombre = pedir_nombres(configuraciones.get_pantalla_pygame())
             estado_juego["nombre_jugador"] = nombre
             estado_juego["pedir_nombre"] = False
-
+            guardar_puntaje(nombre, estado_juego["puntaje"])
 
         if configuraciones.get_pantalla_actual() == "menu":
             reproducir_musica("musica_menu", estado_juego)
@@ -83,8 +83,8 @@ def menu_interaccion():
 
         elif configuraciones.get_pantalla_actual() == "puntaje":
             reproducir_musica("musica_puntajes", estado_juego)
-            pantalla_puntajes(configuraciones.get_pantalla_pygame(), evento)
-
+            pantalla_puntajes(configuraciones.get_pantalla_pygame(), evento, estado_juego)
+            mostrar_puntaje(configuraciones.get_pantalla_pygame())
 
         elif configuraciones.get_pantalla_actual() == "juego":
             reproducir_musica("No", estado_juego)
@@ -122,6 +122,9 @@ def menu_interaccion():
                                         tiempo = estado_juego["tiempo_final"]
                                         estado_juego["puntaje"] = calcular_puntaje(dificultad, tiempo)
                                         estado_juego["pedir_nombre"] = True
+                                        
+                        
+                        
                         elif evento.button == 3:  # Click derecho
                             celda = estado_juego["tablero"][fila][col]
                             # SOLO si la celda NO esta revelada
