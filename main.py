@@ -27,14 +27,15 @@ estado_juego = {
 
 
 
-def pantalla_menu():
-    pantalla = configuraciones.get_pantalla_pygame()
-    pantalla.fill(COLOR_FONDO)
-    # fondo = pygame.transform.scale(IMAGENES["fondo_menu"], pantalla.get_size())
-    # pantalla.blit(fondo, (0, 0))
-from funciones.utilidad import IMAGENES
+
 
 def pantalla_menu():
+    """
+    Muestra el menu principal.
+    Carga la imagen de fondo, dibuja los textos y los botones,
+    y actualiza la pantalla con todo eso.
+    Usa funciones de otros archivos para cada parte.
+    """
     pantalla = configuraciones.get_pantalla_pygame()
     imagen_fondo = pygame.transform.scale(IMAGENES["fondo"], (pantalla.get_width(), pantalla.get_height()))
     pantalla.blit(imagen_fondo, (0, 0))
@@ -47,6 +48,16 @@ def pantalla_menu():
 #FUNCION PRINCIPAL
 
 def menu_interaccion():
+    """
+    bucle principal de el jugo
+    
+    -detecta eventos del mouse y del sistema
+    -muestra las pantallas("menu","juego","puntajes")
+    -reproduce la musica correspondiente
+    -pidce el nombre del jugador en caso de victoria
+    -en juego(permite hacer click para revelar celdas o  para colocar banderas)
+    -verifica si el jugador gana o pierde
+    """
     reloj = pygame.time.Clock()
 
     while True:
@@ -126,7 +137,6 @@ def menu_interaccion():
             dibujar_juego(configuraciones.get_pantalla_pygame(), evento, estado_juego)
 
         pygame.display.flip()
-        reloj.tick(30)
 
         
 
