@@ -1,13 +1,20 @@
 import pygame
 import pygame
-from .utilidad import IMAGENES, dibujar_boton_volver, SONIDOS
+from .utilidad import IMAGENES, dibujar_boton_volver
 from .configuraciones import *
-import csv
 import os
 
 ARCHIVO_PUNTAJES = "./puntajes.csv"
 
-def pantalla_puntajes(pantalla:pygame, evento:pygame, estado_juego: dict):
+def pantalla_puntajes(pantalla:pygame, evento:pygame) -> None:
+    """
+    Funcion para la muestra de la pantalla puntaje y lo necesario en su pantalla
+
+    Entrada:
+    pantalla: pantalla pygame
+    evento: eventos pygame para manejar el evento
+    """
+
     fondo = pygame.transform.scale(IMAGENES["fondo_puntajes"], pantalla.get_size())
     pantalla.blit(fondo, (0, 0))
 
@@ -33,6 +40,12 @@ def guardar_puntaje(nombre_jugador, puntaje) -> None:
     """
     Funcion para guardar el puntaje en el archivo CSV. 
     Si el nombre ya existe, conserva el mayor puntaje.
+
+    ENTRADA:
+    nombre_jugador: string
+    puntaje: string puntaje del jugador que ganó
+    SALIDA:
+    Sin salida
     """
     puntajes = cargar_puntajes()
 
@@ -47,7 +60,7 @@ def guardar_puntaje(nombre_jugador, puntaje) -> None:
     if not existe:
         puntajes.append([nombre_jugador, puntaje])
 
-    puntajes.sort(key=obtener_puntaje, reverse=True)
+    puntajes.sort(key=obtener_puntaje, reverse= True)
     puntajes = puntajes[:10]
     
     with open(ARCHIVO_PUNTAJES, "w", encoding="utf-8") as archivo:
@@ -56,12 +69,23 @@ def guardar_puntaje(nombre_jugador, puntaje) -> None:
             archivo.write(f"{jugador[0]},{jugador[1]} \n")
 
 
-def obtener_puntaje(jugador) -> int:
-    """Funcion para obtener el puntaje del jugador"""
+def obtener_puntaje(jugador:list) -> int:
+    """Funcion para obtener el puntaje del jugador
+    ENTRADA:    
+    jugador: lista que contiene nombre y puntaje 
+    Salida:
+    puntaje
+    """
     return jugador[1]
 
 def cargar_puntajes() -> list:
-    """Cargar la lista de puntajes del archivo csv puntajes"""
+    """Cargar la lista de puntajes del archivo csv puntajes
+    ENTRADA:
+    Sin Entrada
+    SALIDA:
+    puntajes: lista con los puntajes del archivo
+    
+    """
     if not os.path.exists(ARCHIVO_PUNTAJES):
         return []
     

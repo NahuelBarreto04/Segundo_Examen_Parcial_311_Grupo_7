@@ -2,7 +2,7 @@ import pygame
 from funciones.pantallas import *
 from funciones.menu import *
 from funciones import *
-from funciones.utilidad import IMAGENES, SONIDOS
+from funciones.utilidad import IMAGENES
 from funciones.puntajes import *
 
 pygame.init()
@@ -85,7 +85,7 @@ def menu_interaccion():
 
         elif configuraciones.get_pantalla_actual() == "puntaje":
             reproducir_musica("musica_puntajes", estado_juego)
-            pantalla_puntajes(configuraciones.get_pantalla_pygame(), evento, estado_juego)
+            pantalla_puntajes(configuraciones.get_pantalla_pygame(), evento)
 
         elif configuraciones.get_pantalla_actual() == "juego":
             reproducir_musica("No", estado_juego)

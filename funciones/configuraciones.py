@@ -12,22 +12,47 @@ configuracion_juego = {
 # dificultad_juego = {}
 
 #React Pantalla
-def set_pantalla_pygame(pantalla):
-    """Establece la Pantalla pygame"""
+def set_pantalla_pygame(pantalla:pygame) -> None:
+    """Establece la Pantalla pygame
+    ENTRADA:
+    pantalla: pantalla pygame
+    Salida:
+    Sin salida
+    """
     configuracion_juego["PANTALLA"] = pantalla
 
 def get_pantalla_pygame():
+    """Obtiene la Pantalla pygame
+    ENTRADA:
+    Sin entrada
+    Salida:
+    pantalla pygame
+    """
     return configuracion_juego["PANTALLA"]
 
 
 #Resolución
-def get_resolucion_actual():
+def get_resolucion_actual() -> None:
+    """
+    Obtiene la resolucion actual de la pantalla
+    Entrada:
+    Sin entrada
+    Salida:
+    tupla con ancho (int) y alto (int) de la pantalla
+    """
     partes = configuracion_juego["resolucion_actual"].split("x")
     ancho = int(partes[0])
     alto = int(partes[1])
     return ancho, alto
 
-def set_resolucion_actual(valor): 
+def set_resolucion_actual(valor:str) -> None: 
+    """
+    establece la resolución actual en forma de string
+    ENTRADA:
+    valor: string de la resolución actual
+    Salida:
+    Sin salida
+    """
     configuracion_juego["resolucion_actual"] = valor
     print(f"Nueva resolución: {configuracion_juego["resolucion_actual"]}")
 
@@ -35,8 +60,13 @@ def set_resolucion_actual(valor):
         ancho,alto = get_resolucion_actual()
         configuracion_juego["PANTALLA"] = pygame.display.set_mode((ancho, alto), pygame.SCALED)
 
-def cambiar_resolucion():
-    """Alterna entre las resoluciones predefinidas."""
+def cambiar_resolucion() -> None:
+    """Alterna entre las resoluciones para el boton del menu.
+    Entrada:
+    Sin entrada
+    Salida:
+    Sin salida, se usa para configurar el diccionario
+    """
     if configuracion_juego["resolucion_actual"] == "800x600":
         set_resolucion_actual("1024x768")
     elif configuracion_juego["resolucion_actual"] == "1024x768":
@@ -48,10 +78,24 @@ def cambiar_resolucion():
 
 #DIFICULTAD
 def get_dificultad_actual():
-    """Devuelve la dificultad actual."""
+    """Devuelve la dificultad actual.
+    Entrada:
+    Sin entrada
+    SALIDA:
+    string: devuelve la dificultad actual en forma de string (facil, normal, dificil)
+    """
     return configuracion_juego["dificultad_actual"]
 
-def set_dificultad_actual(dificultad):
+def set_dificultad_actual(dificultad:str)-> None:
+
+    """
+    guarda la configuracion actual del juego en formato de string
+
+    ENTRADA: 
+    dificultad: string
+    SALIDA:
+    Sin salida
+    """
     configuracion_juego["dificultad_actual"] = dificultad
 
 def cambiar_dificultad():
@@ -67,9 +111,23 @@ def cambiar_dificultad():
 
 #Pantalla actual
 def get_pantalla_actual():
+    """
+    obtiene la pantalla actual (menu, juego, puntaje)
+    ENTRADA:
+    Sin entrada
+    Salida:
+    string: pantalla actual del juego
+    """
     return configuracion_juego["pantalla_actual"]
 
-def set_pantalla_actual(pantalla_actual):
+def set_pantalla_actual(pantalla_actual: str) -> None:
+    """
+    setea la pantalla actual en el diccionario
+    ENTRADA:
+    pantalla_actual: str (menu,juego,puntajes)
+    SALIDA:
+    Sin salida
+    """
     configuracion_juego["pantalla_actual"] = pantalla_actual
 
 
