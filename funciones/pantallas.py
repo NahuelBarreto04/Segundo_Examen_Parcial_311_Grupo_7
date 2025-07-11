@@ -53,6 +53,56 @@ def iniciar_juego(pantalla, estado_juego):
     estado_juego["tam_celda"] = tam_celda
     estado_juego["banderas_puestas"] = 0
 
+
+
+#pedir nombres
+def pedir_nombres(pantalla) -> str:
+    """
+    Muestra en pantalla un input para que el usuario ingrese 3 letras.
+    Solo permite letras, y el texto se escribe en mayúsculas.
+    Devuelve el nombre ingresado como str.
+    """
+    nombre = ""
+    fuente = pygame.font.SysFont("arial", 50)
+    reloj = pygame.time.Clock()
+
+    escribiendo = True
+    while escribiendo:
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_RETURN and len(nombre) == 3:
+                    escribiendo = False
+                elif evento.key == pygame.K_BACKSPACE:
+                    nombre = nombre[:-1]
+                elif len(nombre) < 3:
+                    codigo = evento.key
+                    if 97 <= codigo <= 122:  # a-z
+                        letra = chr(codigo - 32)  # mayúscula
+                        nombre += letra
+                    elif 65 <= codigo <= 90:  # A-Z
+                        letra = chr(codigo)
+                        nombre += letra
+
+        pantalla.fill((0, 0, 0))
+        texto = fuente.render("Ingrese su nombre (3 letras): " + nombre, True, (255, 255, 255))
+        x = (pantalla.get_width() - texto.get_width()) // 2
+        y = pantalla.get_height() // 2
+        pantalla.blit(texto, (x, y))
+        pygame.display.flip()
+        reloj.tick(30)
+
+    return nombre
+
+
+
+
+
+
+
+
 def dibujar_juego(pantalla, evento, estado_juego):
     pantalla.fill((0, 0, 0))
     fuente = pygame.font.SysFont("arial", 20)
