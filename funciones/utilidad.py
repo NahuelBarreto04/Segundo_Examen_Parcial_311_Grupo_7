@@ -1,8 +1,5 @@
 import pygame
-# ruta_imagenes = 'imagenes/'
-# imagen_celda = pygame.image.load(f"{ruta_imagenes}bloque-vacio")
-# imagen_celda = pygame.transform.scale(imagen_celda, 120, 120)
-# rect_celda = pygame.Rect(50,50, 100,100)
+
 
 TAM_CELDA = 40
 MARGEN = 1
@@ -115,6 +112,9 @@ def dibujar_boton_volver(pantalla:pygame, evento:pygame) -> None:
     ENTRADA:
     pantalla: pantalla de pygame 
     evento: eventos pygame para manejar el click
+    SALIDA:
+    True: porque el evento colisiono con el boton
+    False: el evento no colisiono con la posicion del boton
     """
     fuente = pygame.font.SysFont("arial", 25)
     texto = fuente.render("volver al menu", True, (255, 255, 255))
