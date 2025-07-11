@@ -15,6 +15,12 @@ def iniciar_juego(pantalla:pygame, estado_juego:dict)-> None:
     decide el tamaño del tablero y las minas segun la dificultad elegida
     crea un tablero vacio
     guarda todo en el estado de juego
+    ENTRADA:
+    pantalla: pygame, donde se dibuja el juego
+    estado_juego: dict, con el estado actual del juego
+
+    SALIDA
+    NONE(sin salida)
     """
     #Estado del Juego
     estado_juego["gano"] = False
@@ -72,6 +78,12 @@ def dibujar_juego(pantalla:pygame, evento:pygame, estado_juego:dict)->None:
     -boton de reinicio y detecta si es pulsado
     -si gana o pierde, muestra su debido cartel y puntaje
     -boton volver al menu
+    ENTRADA:
+    pantalla:pygame donde se dibuja el juego
+    evento: pygame,con el evento actual
+    estado_juego: dict, el estado actual del juego
+    SALIDA:
+    none (SIN SALIDA)
     """
 
     pantalla.fill((0, 0, 0))
@@ -158,6 +170,11 @@ def dibujar_timer(pantalla:pygame, estado_juego:dict)-> None:
     Dibuja el tiempo transcurrido en pantalla en formato mm:ss(minutos,segundos).
     Recibe la pantalla de pygame y el estado del juego.
     No devuelve nada.
+    ENTRADA:
+    pantalla:pygame, donde se dibuja el timer
+    estado_juego:dict, con el estado actual del juego
+    SALIDA:
+    sin salida
     """
     fuente = pygame.font.SysFont("arial", 30)
 
@@ -191,6 +208,11 @@ def dibujar_timer(pantalla:pygame, estado_juego:dict)-> None:
 def dibujar_contador_banderas(pantalla:pygame, estado_juego:dict)-> None:
     """
     muestra la cantidad de banderas puestas 
+    ENTRADA:
+    pantalla: pygame,donde se muestra el contador
+    estado_juego:dict, con el estado actual del juego
+    SALIDA:
+    sin salida
     """
     fuente = pygame.font.SysFont("arial", 30)
     banderas = estado_juego.get("banderas_puestas", 0)
@@ -207,6 +229,11 @@ def dibujar_boton_reinicio(pantalla:pygame, imagenes:dict)-> pygame.Rect:
     """
     dibuja el boton de reinicio 
     retorna el rectangulo para luego detectar los click
+    ENTRADA:
+    pantalla: pygame donde se dibuja el boton
+    imagenes: dict con las imagenes cargadas
+    SALIDA:
+    pygame.Rect -> area del boton para detectar click
     """
     ancho_boton = 60
     alto_boton = 60
@@ -226,6 +253,12 @@ def controlar_boton_reinicio(evento:pygame, rect_reinicio:pygame, estado_juego:d
     detecta si el jugador toca el boton de reinicio
     retorna true si el juego es reiniciado
     false si no pasa nada
+    ENTRADa:
+    evento: pygame, el evento actual del mouse
+    rect_reinicio:pygame , rectangulo que define el area del boton de reiniciar
+    estado_juego:dict, estado actual del juego
+    SALIDA:
+    BOOL -> true si reinicia, false si no
     """
     if evento is not None and evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
         if rect_reinicio.collidepoint(evento.pos):
@@ -241,6 +274,11 @@ def pedir_nombres(pantalla:pygame) -> str:
     Muestra en pantalla un input para que el usuario ingrese 5 letras.
     Solo permite letras, y el texto se escribe en mayúsculas.
     Devuelve el nombre ingresado como str.
+    Entrada:
+    pantalla: pygame, la pantalla donde se muestra el input
+
+    SALIDA:
+    str -> nombre ingresado por el usuario, en mayus
     """
     nombre = ""
     fuente = pygame.font.SysFont("arial", 30)

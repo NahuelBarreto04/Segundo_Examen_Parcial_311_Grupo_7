@@ -35,6 +35,11 @@ def pantalla_menu():
     Carga la imagen de fondo, dibuja los textos y los botones,
     y actualiza la pantalla con todo eso.
     Usa funciones de otros archivos para cada parte.
+
+    ENTRADA:
+    no recibe parametros
+    SALIDA:
+    no devuelve nada , solo actualiza lo que se ve en pantalla
     """
     pantalla = configuraciones.get_pantalla_pygame()
     imagen_fondo = pygame.transform.scale(IMAGENES["fondo"], (pantalla.get_width(), pantalla.get_height()))
@@ -59,6 +64,10 @@ def menu_interaccion():
     -en juego(permite hacer click para revelar celdas o  para colocar banderas)
     -verifica si el jugador gana o pierde
     
+    ENTRADA:
+    no recibe parametros (usa las variable globales)
+    SALIDA:
+    sin salida, pero controla el juego 
     """
     reloj = pygame.time.Clock()
 
